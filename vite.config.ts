@@ -19,6 +19,7 @@ export default defineConfig({
       level: "medium",
     }),
   ],
+   base: 'https://github.com/Clean-earthw/alien-invasion', 
   server: { host: "0.0.0.0", port: 8081, open: true },
   build: {
     outDir: "dist",
@@ -32,5 +33,4 @@ export default defineConfig({
     esbuildOptions: { target: "esnext" },
   },
   publicDir: "public",
-  base: "./",
 });
