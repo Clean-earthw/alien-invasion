@@ -1,0 +1,457 @@
+{
+  "element": {
+    "type": "container",
+    "sourceTag": "div",
+    "children": [
+      {
+        "sourceTag": "span",
+        "type": "custom",
+        "children": [
+          "Robot Shooter Game"
+        ],
+        "properties": {
+          "class": "heading"
+        },
+        "dataUid": "uid-2"
+      },
+      {
+        "sourceTag": "span",
+        "type": "custom",
+        "children": [
+          "Grab the gun with your right hand, pull trigger to shoot. Destroy all robots!"
+        ],
+        "properties": {
+          "class": "sub-heading"
+        },
+        "dataUid": "uid-3"
+      },
+      {
+        "type": "container",
+        "sourceTag": "div",
+        "children": [
+          {
+            "type": "container",
+            "sourceTag": "div",
+            "children": [
+              {
+                "sourceTag": "span",
+                "type": "custom",
+                "children": [
+                  "Robots Destroyed:"
+                ],
+                "properties": {},
+                "dataUid": "uid-6"
+              },
+              {
+                "sourceTag": "span",
+                "type": "custom",
+                "children": [
+                  "0"
+                ],
+                "properties": {
+                  "id": "score"
+                },
+                "dataUid": "uid-7"
+              }
+            ],
+            "properties": {
+              "class": "stat-row"
+            },
+            "dataUid": "uid-5"
+          },
+          {
+            "type": "container",
+            "sourceTag": "div",
+            "children": [
+              {
+                "sourceTag": "span",
+                "type": "custom",
+                "children": [
+                  "Remaining:"
+                ],
+                "properties": {},
+                "dataUid": "uid-9"
+              },
+              {
+                "sourceTag": "span",
+                "type": "custom",
+                "children": [
+                  "4"
+                ],
+                "properties": {
+                  "id": "remaining"
+                },
+                "dataUid": "uid-10"
+              }
+            ],
+            "properties": {
+              "class": "stat-row"
+            },
+            "dataUid": "uid-8"
+          },
+          {
+            "type": "container",
+            "sourceTag": "div",
+            "children": [
+              {
+                "sourceTag": "span",
+                "type": "custom",
+                "children": [
+                  "Ammo:"
+                ],
+                "properties": {},
+                "dataUid": "uid-12"
+              },
+              {
+                "sourceTag": "span",
+                "type": "custom",
+                "children": [
+                  "∞"
+                ],
+                "properties": {
+                  "id": "ammo"
+                },
+                "dataUid": "uid-13"
+              }
+            ],
+            "properties": {
+              "class": "stat-row"
+            },
+            "dataUid": "uid-11"
+          }
+        ],
+        "properties": {
+          "class": "game-stats"
+        },
+        "dataUid": "uid-4"
+      },
+      {
+        "sourceTag": "button",
+        "type": "custom",
+        "children": [
+          "Enter XR"
+        ],
+        "properties": {
+          "id": "xr-button"
+        },
+        "dataUid": "uid-14"
+      },
+      {
+        "sourceTag": "button",
+        "type": "custom",
+        "children": [
+          "Start Game"
+        ],
+        "properties": {
+          "id": "start-game"
+        },
+        "dataUid": "uid-15"
+      }
+    ],
+    "properties": {
+      "class": "panel-container"
+    },
+    "dataUid": "uid-1"
+  },
+  "classes": {
+    "panel-container": {
+      "content": {
+        "alignItems": "flex-start",
+        "padding": "2",
+        "width": "50",
+        "display": "flex",
+        "flexDirection": "column",
+        "backgroundColor": "#09090b",
+        "borderColor": "#27272a",
+        "borderWidth": "0.15",
+        "borderRadius": 3
+      }
+    },
+    "heading": {
+      "content": {
+        "fontSize": "4",
+        "fontWeight": "medium",
+        "color": "#fafafa",
+        "textAlign": "left"
+      }
+    },
+    "sub-heading": {
+      "content": {
+        "fontSize": "2",
+        "color": "#a1a1aa",
+        "textAlign": "left",
+        "marginTop": "0.3"
+      }
+    },
+    "game-stats": {
+      "content": {
+        "marginTop": "2",
+        "width": "100%",
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "0.5"
+      }
+    },
+    "stat-row": {
+      "content": {
+        "display": "flex",
+        "justifyContent": "space-between",
+        "fontSize": "2",
+        "color": "#fafafa"
+      }
+    },
+    "__id__xr-button": {
+      "content": {
+        "width": "100%",
+        "padding": "1.5",
+        "marginTop": "2",
+        "backgroundColor": "#fafafa",
+        "color": "#09090b",
+        "borderRadius": 1.5,
+        "borderWidth": "0.1",
+        "borderColor": "#e4e4e7",
+        "fontSize": "2.5",
+        "fontWeight": "medium",
+        "textAlign": "center",
+        "cursor": "pointer"
+      }
+    },
+    "__id__start-game": {
+      "content": {
+        "width": "100%",
+        "padding": "1.5",
+        "marginTop": "1",
+        "backgroundColor": "#3b82f6",
+        "color": "#ffffff",
+        "borderRadius": 1.5,
+        "borderWidth": "0",
+        "fontSize": "2.5",
+        "fontWeight": "medium",
+        "textAlign": "center",
+        "cursor": "pointer"
+      }
+    }
+  },
+  "ranges": {
+    "panel-container": {
+      "start": {
+        "line": 1,
+        "column": 2
+      },
+      "end": {
+        "line": 1,
+        "column": 18
+      }
+    },
+    "heading": {
+      "start": {
+        "line": 13,
+        "column": 2
+      },
+      "end": {
+        "line": 13,
+        "column": 10
+      }
+    },
+    "sub-heading": {
+      "start": {
+        "line": 20,
+        "column": 2
+      },
+      "end": {
+        "line": 20,
+        "column": 14
+      }
+    },
+    "game-stats": {
+      "start": {
+        "line": 27,
+        "column": 2
+      },
+      "end": {
+        "line": 27,
+        "column": 13
+      }
+    },
+    "stat-row": {
+      "start": {
+        "line": 35,
+        "column": 2
+      },
+      "end": {
+        "line": 35,
+        "column": 11
+      }
+    },
+    "__id__xr-button": {
+      "start": {
+        "line": 42,
+        "column": 2
+      },
+      "end": {
+        "line": 42,
+        "column": 12
+      }
+    },
+    "__id__start-game": {
+      "start": {
+        "line": 57,
+        "column": 2
+      },
+      "end": {
+        "line": 57,
+        "column": 13
+      }
+    },
+    "uid-1": {
+      "start": {
+        "line": 71,
+        "column": 0
+      },
+      "end": {
+        "line": 92,
+        "column": 6
+      }
+    },
+    "uid-2": {
+      "start": {
+        "line": 72,
+        "column": 2
+      },
+      "end": {
+        "line": 72,
+        "column": 51
+      }
+    },
+    "uid-3": {
+      "start": {
+        "line": 73,
+        "column": 2
+      },
+      "end": {
+        "line": 73,
+        "column": 113
+      }
+    },
+    "uid-4": {
+      "start": {
+        "line": 75,
+        "column": 2
+      },
+      "end": {
+        "line": 88,
+        "column": 8
+      }
+    },
+    "uid-5": {
+      "start": {
+        "line": 76,
+        "column": 4
+      },
+      "end": {
+        "line": 79,
+        "column": 10
+      }
+    },
+    "uid-6": {
+      "start": {
+        "line": 77,
+        "column": 6
+      },
+      "end": {
+        "line": 77,
+        "column": 36
+      }
+    },
+    "uid-7": {
+      "start": {
+        "line": 78,
+        "column": 6
+      },
+      "end": {
+        "line": 78,
+        "column": 31
+      }
+    },
+    "uid-8": {
+      "start": {
+        "line": 80,
+        "column": 4
+      },
+      "end": {
+        "line": 83,
+        "column": 10
+      }
+    },
+    "uid-9": {
+      "start": {
+        "line": 81,
+        "column": 6
+      },
+      "end": {
+        "line": 81,
+        "column": 29
+      }
+    },
+    "uid-10": {
+      "start": {
+        "line": 82,
+        "column": 6
+      },
+      "end": {
+        "line": 82,
+        "column": 35
+      }
+    },
+    "uid-11": {
+      "start": {
+        "line": 84,
+        "column": 4
+      },
+      "end": {
+        "line": 87,
+        "column": 10
+      }
+    },
+    "uid-12": {
+      "start": {
+        "line": 85,
+        "column": 6
+      },
+      "end": {
+        "line": 85,
+        "column": 24
+      }
+    },
+    "uid-13": {
+      "start": {
+        "line": 86,
+        "column": 6
+      },
+      "end": {
+        "line": 86,
+        "column": 30
+      }
+    },
+    "uid-14": {
+      "start": {
+        "line": 90,
+        "column": 2
+      },
+      "end": {
+        "line": 90,
+        "column": 42
+      }
+    },
+    "uid-15": {
+      "start": {
+        "line": 91,
+        "column": 2
+      },
+      "end": {
+        "line": 91,
+        "column": 45
+      }
+    }
+  }
+}

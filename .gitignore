@@ -2,9 +2,6 @@
 node_modules/
 .pnpm-debug.log*
 
-# Build outputs
-dist/
-*.tsbuildinfo
 
 # Environment files
 .env
