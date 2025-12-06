@@ -1,0 +1,91 @@
+<style>
+  .hud-container {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 0, 40, 0.9));
+    border-radius: 12px;
+    border: 2px solid;
+    border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+  }
+
+  .game-title {
+    font-size: 22px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid;
+  }
+
+  .score-row {
+    border-left-color: #ff0000;
+  }
+
+  .wave-row {
+    border-left-color: #00ff00;
+  }
+
+  .kills-row {
+    border-left-color: #0000ff;
+  }
+
+  .stat-label {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px currentColor;
+  }
+
+  .score-value {
+    color: #ff0000;
+  }
+
+  .wave-value {
+    color: #00ff00;
+  }
+
+  .kills-value {
+    color: #0000ff;
+  }
+</style>
+
+<div class="hud-container">
+  <div class="game-title">AR ROBOT DEFENSE</div>
+  
+  <div class="stat-row score-row">
+    <span class="stat-label">SCORE</span>
+    <span id="score-value" class="stat-value score-value">0</span>
+  </div>
+  
+  <div class="stat-row wave-row">
+    <span class="stat-label">WAVE</span>
+    <span id="wave-value" class="stat-value wave-value">1</span>
+  </div>
+  
+  <div class="stat-row kills-row">
+    <span class="stat-label">ELIMINATED</span>
+    <span id="kills-value" class="stat-value kills-value">0</span>
+  </div>
+</div>
