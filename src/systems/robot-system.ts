@@ -1,167 +1,118 @@
-import { createSystem, Vector3 } from "@iwsdk/core";
-import { Robot, Player, DamageEffect, GameState } from "../components.js";
+import { createSystem, Vector3, Entity } from "@iwsdk/core";
+import { Robot, Player, DamageEffect } from "../components.js";
 
-export class RobotSystem extends createSystem({
-  activeRobots: {
-    required: [Robot],
-  },
-  player: {
-    required: [Player]
-  },
-  gameState: {
-    required: [GameState]
-  }
-}) {
-  private tempVec3 = new Vector3();
-  private playerPos = new Vector3();
-  private initialized = false;
+export class RobotSystem extends createSystem(
+    {
+        activeRobots: {
+            required: [Robot],
+        },
+        player: {
+            required: [Player]
+        }
+    },
+    {
+        // Optional config parameters
+    }
+) {
+    private tempVec3 = new Vector3();
+    private playerPos = new Vector3();
 
-  init() {
-    console.log("🤖 RobotSystem initialized - Floating space drones");
-    this.initialized = true;
-  }
-
-  update(dt: number, time: number) {
-    if (!this.initialized) return;
-    
-    // Get player position
-    if (this.world.camera) {
-      this.world.camera.getWorldPosition(this.playerPos);
+    init(): void {
+        console.log("🤖 RobotSystem initialized");
     }
 
-    // Update all robots
+    update(dt: number, time: number): void {        
+    const playerPos = new Vector3(0, 1.5, 0);
+    if (this.world.camera) {
+        this.world.camera.getWorldPosition(playerPos);
+    }
+
     for (const robotEntity of this.queries.activeRobots.entities) {
-      const isDead = robotEntity.getValue(Robot, "isDead");
-      const robotObj = robotEntity.object3D;
-      
-      if (isDead || !robotObj) continue;
-
-      const speed = robotEntity.getValue(Robot, "speed") || 0.0; // Static floating
-      const attackRange = robotEntity.getValue(Robot, "attackRange") || 15.0;
-      const attackDamage = robotEntity.getValue(Robot, "attackDamage") || 18.0;
-      const attackCooldown = robotEntity.getValue(Robot, "attackCooldown") || 3.5;
-      const lastAttackTime = robotEntity.getValue(Robot, "lastAttackTime") || 0.0;
-
-      // FLOATING ANIMATION for space drones
-      if (robotObj.userData) {
-        const { floatHeight, floatSpeed, rotationSpeed, timeOffset } = robotObj.userData;
+        const isDead = robotEntity.getValue(Robot, "isDead");
+        const robotObj = robotEntity.object3D;
         
-        // Gentle floating up/down
-        robotObj.position.y = floatHeight + Math.sin((time + timeOffset) * floatSpeed) * 0.2;
-        
-        // Slow rotation (like floating in space)
-        robotObj.rotation.y += rotationSpeed;
-        robotObj.rotation.x = Math.sin(time * 0.3) * 0.05;
-      }
-      
-      // Get robot position
-      robotObj.getWorldPosition(this.tempVec3);
-      
-      // Calculate distance to player
-      const distanceToPlayer = this.tempVec3.distanceTo(this.playerPos);
+        if (isDead || !robotObj) continue;
 
-      // Make drone face player (but keep floating animation)
-      if (distanceToPlayer <= 20.0) {
-        const lookAtPos = new Vector3(this.playerPos.x, robotObj.position.y, this.playerPos.z);
-        const currentRotation = robotObj.rotation.y;
+        const floatData = (robotObj as any).userData;
+        
+        if (floatData) {
+            const { floatHeight, floatSpeed, timeOffset, bobAmount } = floatData;
+            robotObj.position.y = floatHeight + Math.sin((time + timeOffset) * floatSpeed) * bobAmount;
+            robotObj.rotation.y += 0.001;
+        }
+        
+        const alienPos = new Vector3();
+        robotObj.getWorldPosition(alienPos);
+        
+        const distanceToPlayer = alienPos.distanceTo(playerPos);
+        
+        // ROBOT FACES PLAYER (robots at negative Z, player at 0)
+        const lookAtPos = new Vector3(playerPos.x, playerPos.y * 0.8, playerPos.z);
         robotObj.lookAt(lookAtPos);
         
-        // Blend rotation to maintain floating feel
-        robotObj.rotation.y = currentRotation * 0.7 + robotObj.rotation.y * 0.3;
-      }
-      
-      // Pulsing glow effect for space drones
-      const pulseIntensity = 0.4 + Math.sin(time * 1.5) * 0.3;
-      robotObj.traverse((child: any) => {
-        if (child.isMesh && child.material) {
-          if (child.material.emissive) {
-            // Pulse emissive colors
-            const currentColor = child.material.emissive.getHex();
-            if (currentColor === 0xff0000 || currentColor === 0x00ffff || currentColor === 0xffff00) {
-              child.material.emissiveIntensity = pulseIntensity;
-            }
-          }
-        }
-      });
-
-      // Thruster glow effect
-      const thrusterPulse = 0.3 + Math.sin(time * 3) * 0.2;
-      robotObj.traverse((child: any) => {
-        if (child.isMesh && child.material && child.material.emissive) {
-          if (child.material.emissive.getHex() === 0x333333) {
-            child.material.emissiveIntensity = thrusterPulse;
-            // Thruster color cycle
-            const hue = (time * 0.5) % 1;
-            child.material.emissive.setHSL(hue, 0.8, 0.3);
-          }
-        }
-      });
-
-      // Attack logic if player is in range
-      if (distanceToPlayer <= attackRange) {
-        if (time - lastAttackTime >= attackCooldown) {
-          robotEntity.setValue(Robot, "lastAttackTime", time);
-          
-          // Damage player
-          const playerEntities = this.queries.player.entities;
-          if (playerEntities.size > 0) {
-            const playerEntity = Array.from(playerEntities)[0];
-            const currentHealth = playerEntity.getValue(Player, "health") || 100.0;
-            const newHealth = Math.max(0, currentHealth - attackDamage);
-            
-            playerEntity.setValue(Player, "health", newHealth);
-            playerEntity.setValue(Player, "lastDamageTime", time);
-            
-            // Add damage effect
-            if (!playerEntity.hasComponent(DamageEffect)) {
-              playerEntity.addComponent(DamageEffect, {
-                time: 0.0,
-                duration: 0.4,
-              });
-            }
-            
-            console.log(`🚀 Space Drone fired! Health: ${newHealth}`);
-            
-            // Visual feedback - drone flashes brightly when attacking
-            robotObj.traverse((child: any) => {
-              if (child.isMesh && child.material && child.material.emissive) {
-                const originalColor = child.material.emissive.getHex();
-                child.material.emissive.setHex(0xffffff);
-                child.material.emissiveIntensity = 1.5;
-                setTimeout(() => {
-                  child.material.emissive.setHex(originalColor);
-                  child.material.emissiveIntensity = pulseIntensity;
-                }, 200);
-              }
-            });
-          }
-        }
-      }
-      
-      // Drone health indicator
-      const health = robotEntity.getValue(Robot, "health") || 75.0;
-      const maxHealth = robotEntity.getValue(Robot, "maxHealth") || 75.0;
-      const healthPercentage = health / maxHealth;
-      
-      if (healthPercentage < 0.5) {
-        // Damaged drones pulse erratically
-        const damagePulse = 0.6 + Math.sin(time * 6) * 0.4;
+        // Pulsing glow
+        const pulseIntensity = 0.6 + Math.sin(time * 2.0) * 0.3;
         robotObj.traverse((child: any) => {
-          if (child.isMesh && child.material && child.material.emissive) {
-            const currentColor = child.material.emissive.getHex();
-            if (currentColor === 0x440000 || currentColor === 0xff0000) {
-              child.material.emissiveIntensity = damagePulse;
-              // Flicker effect for critical damage
-              if (healthPercentage < 0.2 && Math.random() > 0.7) {
-                child.material.emissiveIntensity = 0;
-                setTimeout(() => {
-                  child.material.emissiveIntensity = damagePulse;
-                }, 50);
-              }
+            if (child.isMesh && child.material && child.material.emissive) {
+                child.material.emissiveIntensity = pulseIntensity;
             }
-          }
         });
-      }
+        
+        // Attack logic
+        const attackRange = robotEntity.getValue(Robot, "attackRange") || 25.0;
+        const attackCooldown = robotEntity.getValue(Robot, "attackCooldown") || 2.5;
+        const lastAttackTime = robotEntity.getValue(Robot, "lastAttackTime") || 0.0;
+        
+        // Robots can see player (they're behind at negative Z)
+        const canSeePlayer = alienPos.z < -5 && Math.abs(alienPos.x) < 15;
+        
+        if (canSeePlayer && distanceToPlayer <= attackRange) {
+            if (time - lastAttackTime >= attackCooldown) {
+                robotEntity.setValue(Robot, "lastAttackTime", time);
+                
+                const playerEntities = Array.from(this.queries.player.entities);
+                if (playerEntities.length > 0) {
+                    const playerEntity = playerEntities[0];
+                    const attackDamage = robotEntity.getValue(Robot, "attackDamage") || 15.0;
+                    const currentHealth = playerEntity.getValue(Player, "health") || 100.0;
+                    const newHealth = Math.max(0, currentHealth - attackDamage);
+                    
+                    playerEntity.setValue(Player, "health", newHealth);
+                    playerEntity.setValue(Player, "lastDamageTime", time);
+                    
+                    if (!playerEntity.hasComponent(DamageEffect)) {
+                        playerEntity.addComponent(DamageEffect, {
+                            time: 0.0,
+                            duration: 0.3,
+                        });
+                    }
+                    
+                    // Flash red on attack
+                    robotObj.traverse((child: any) => {
+                        if (child.isMesh && child.material && child.material.emissive) {
+                            const originalColor = child.material.emissive.getHex();
+                            child.material.emissive.setHex(0xff0000);
+                            child.material.emissiveIntensity = 2.5;
+                            setTimeout(() => {
+                                child.material.emissive.setHex(originalColor);
+                            }, 200);
+                        }
+                    });
+                    
+                    console.log(`👽 Alien fired from BEHIND!`);
+                }
+            }
+        }
+        
+        // Move toward player from behind
+        const speed = robotEntity.getValue(Robot, "speed") || 0.3;
+        if (alienPos.z < -8 && distanceToPlayer > 15) {
+            const moveAmount = speed * dt;
+            alienPos.z += moveAmount * 0.7; // Move toward positive Z (player)
+            alienPos.x += (Math.random() - 0.5) * moveAmount * 0.3;
+            robotObj.position.copy(alienPos);
+        }
     }
-  }
+}
+
 }
