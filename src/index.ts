@@ -17,7 +17,8 @@ import {
     LocomotionEnvironment,
     EnvironmentType,
     DomeGradient,
-    GridHelper,
+    PanelUI,
+    ScreenSpace,
     Vector3,
     Group,
     Quaternion
@@ -30,14 +31,15 @@ import { ProjectileSystem } from "./systems/projectile-system.js";
 import { HealthSystem } from "./systems/health-system.js";
 import { WaveSystem } from "./systems/wave-system.js";
 import { UISystem } from "./systems/ui-system.js";
-import { VROptimizationSystem } from "./systems/vr-optimizations.js";
+import { GunTargetingSystem } from "./systems/gun-targeting-system.js";
 
 // Import components
 import { 
     GameState, 
     Player, 
     Gun, 
-    WaveSpawner
+    WaveSpawner,
+    UIController
 } from "./components.js";
 
 // Asset manifest
@@ -59,7 +61,7 @@ const assets: AssetManifest = {
         type: AssetType.Audio,
     },
     explosionSound: {
-        url: "./audio/explosion.mp3",
+        url: "./audio/ding.mp3",
         type: AssetType.Audio,
     },
 };
@@ -93,13 +95,14 @@ World.create(document.getElementById("scene-container") as HTMLDivElement, {
     
     // Create game state entity
     world.createEntity().addComponent(GameState, {
-        isPlaying: true,
+        isPlaying: false, // Start paused - user must click start
         score: 0,
         wave: 1,
         robotsKilled: 0,
         robotsKilledInWave: 0,
         robotsPerWave: 3,
         waveCompleted: false,
+        gameOver: false,
     });
 
     // Create player entity
@@ -107,10 +110,10 @@ World.create(document.getElementById("scene-container") as HTMLDivElement, {
         health: 100.0,
         maxHealth: 100.0,
         lastDamageTime: 0.0,
-        isImmortal: true,
+        isImmortal: false,
     });
 
-    // Create wave spawner entity
+    // Create wave spawner entity (start inactive)
     world.createEntity().addComponent(WaveSpawner, {
         waveNumber: 1,
         robotsToSpawn: 3,
@@ -118,9 +121,36 @@ World.create(document.getElementById("scene-container") as HTMLDivElement, {
         robotsAlive: 0,
         spawnInterval: 2.0,
         lastSpawnTime: 0.0,
-        isActive: true,
+        isActive: false, // Start inactive
         isSpawning: false,
     });
+
+    // Create UI controller entity
+    world.createEntity().addComponent(UIController, {
+        type: "main",
+        lastUpdateTime: 0.0,
+    });
+
+    // // Create UIKit panel as transform entity
+    // const panelEntity = world
+    //     .createTransformEntity()
+    //     .addComponent(PanelUI, {
+    //         config: "./ui/welcome.json",
+    //         maxHeight: 0.8,
+    //         maxWidth: 1.6,
+    //     })
+    //     .addComponent(Interactable)
+    //     .addComponent(ScreenSpace, {
+    //         top: "20px",
+    //         left: "20px",
+    //         height: "80%",
+    //         width: "400px"
+    //     });
+    
+    // // Position panel in front of player (adjust for your layout)
+    // if (panelEntity.object3D) {
+    //     panelEntity.object3D.position.set(0, 1.29, -1.5);
+    // }
 
     // Load environment
     loadEnvironment(world);
@@ -137,7 +167,7 @@ World.create(document.getElementById("scene-container") as HTMLDivElement, {
     // Hide loading screen
     hideLoadingScreen();
     
-    console.log("✅ Game initialized successfully!");
+    console.log("✅ Game initialized successfully with UI!");
     
 }).catch((error) => {
     console.error("❌ Failed to initialize world:", error);
@@ -545,8 +575,8 @@ function registerSystems(world: any): void {
             .registerSystem(ProjectileSystem)
             .registerSystem(HealthSystem)
             .registerSystem(WaveSystem)
-            .registerSystem(UISystem)
-            .registerSystem(VROptimizationSystem);
+            .register(GunTargetingSystem)
+            .registerSystem(UISystem);
             
         console.log("✅ All game systems registered");
     } catch (error) {

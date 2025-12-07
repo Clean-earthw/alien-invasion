@@ -1,93 +1,337 @@
 <style>
   .panel-container {
-    align-items: flex-start;
-    padding: 2;
-    width: 50;
+    align-items: center;
+    padding: 25px;
+    width: 400px;
+    max-width: 90vw;
     display: flex;
     flex-direction: column;
-    background-color: #09090b;
-    border-color: #27272a;
-    border-width: 0.15;
-    border-radius: 3;
-  }
-
-  .heading {
-    font-size: 4;
-    font-weight: medium;
-    color: #fafafa;
-    text-align: left;
-  }
-
-  .sub-heading {
-    font-size: 2;
-    color: #a1a1aa;
-    text-align: left;
-    margin-top: 0.3;
+    background: linear-gradient(145deg, #ffffff 0%, #f5f5f5 100%);
+    border: 2px solid #3b82f6;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
   }
   
-  .game-stats {
-    margin-top: 2;
+  @media (max-width: 480px) {
+    .panel-container {
+      padding: 20px;
+      width: 350px;
+    }
+  }
+
+  .game-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-text {
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+  }
+  
+  @media (max-width: 480px) {
+    .logo-text {
+      font-size: 28px;
+    }
+  }
+
+  .game-title {
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    margin: 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .game-subtitle {
+    font-size: 14px;
+    color: #52525b;
+    text-align: center;
+    margin-bottom: 25px;
+    max-width: 300px;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: 480px) {
+    .game-subtitle {
+      font-size: 12px;
+      max-width: 250px;
+    }
+  }
+  
+  .game-stats-panel {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.5;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(249, 249, 249, 0.8);
+    border-radius: 12px;
+    border: 1px solid #3b82f6;
+  }
+  
+  @media (max-width: 480px) {
+    .game-stats-panel {
+      padding: 12px;
+      gap: 8px;
+    }
   }
   
   .stat-row {
     display: flex;
     justify-content: space-between;
-    font-size: 2;
-    color: #fafafa;
+    font-size: 16px;
+    color: #1a1a1a;
+    padding: 5px 0;
   }
   
-  #xr-button {
-    width: 100%;
-    padding: 1.5;
-    margin-top: 2;
-    background-color: #fafafa;
-    color: #09090b;
-    border-radius: 1.5;
-    border-width: 0.1;
-    border-color: #e4e4e7;
-    font-size: 2.5;
-    font-weight: medium;
-    text-align: center;
-    cursor: pointer;
+  @media (max-width: 480px) {
+    .stat-row {
+      font-size: 14px;
+    }
   }
   
-  #start-game {
+  .stat-value {
+    font-weight: 700;
+    color: #3b82f6;
+  }
+  
+  .menu-button {
     width: 100%;
-    padding: 1.5;
-    margin-top: 1;
-    background-color: #3b82f6;
-    color: #ffffff;
-    border-radius: 1.5;
-    border-width: 0;
-    font-size: 2.5;
-    font-weight: medium;
+    padding: 15px;
+    background: linear-gradient(145deg, #ffffff, #f5f5f5);
+    color: #1a1a1a;
+    border-radius: 12px;
+    border: 2px solid #3b82f6;
+    font-size: 18px;
+    font-weight: 600;
     text-align: center;
     cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (max-width: 480px) {
+    .menu-button {
+      padding: 12px;
+      font-size: 16px;
+    }
+  }
+  
+  .menu-button:hover {
+    background: linear-gradient(145deg, #f5f5f5, #e5e5e5);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+  }
+  
+  .menu-button.exit {
+    background: linear-gradient(145deg, #ffffff, #f5f5f5);
+    border-color: #ef4444;
+    color: #ef4444;
+    margin-top: 10px;
+  }
+  
+  .menu-button.exit:hover {
+    background: linear-gradient(145deg, #fef2f2, #fee2e2);
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+  }
+  
+  .instructions-panel {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(249, 249, 249, 0.9);
+    border-radius: 12px;
+    border: 1px solid #8b5cf6;
+    display: none;
+  }
+  
+  @media (max-width: 480px) {
+    .instructions-panel {
+      padding: 12px;
+    }
+  }
+  
+  .instructions-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #8b5cf6;
+    margin-bottom: 10px;
+  }
+  
+  .instructions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .instructions-item {
+    font-size: 14px;
+    color: #3f3f46;
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+  }
+  
+  @media (max-width: 480px) {
+    .instructions-item {
+      font-size: 12px;
+    }
+  }
+  
+  .instructions-item:before {
+    content: "•";
+    color: #3b82f6;
+    position: absolute;
+    left: 0;
+    font-size: 20px;
+  }
+  
+  .game-over-panel {
+    display: none;
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    background: linear-gradient(145deg, #ffffff, #fef2f2);
+    border-radius: 15px;
+    border: 2px solid #ef4444;
+    text-align: center;
+  }
+  
+  @media (max-width: 480px) {
+    .game-over-panel {
+      padding: 15px;
+    }
+  }
+  
+  .game-over-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ef4444;
+    margin-bottom: 15px;
+  }
+  
+  @media (max-width: 480px) {
+    .game-over-title {
+      font-size: 24px;
+    }
+  }
+  
+  .game-over-stats {
+    font-size: 16px;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 480px) {
+    .game-over-stats {
+      font-size: 14px;
+    }
+  }
+  
+  .game-over-stat {
+    margin: 8px 0;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e5e5e5;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 5px;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
   }
 </style>
+
 <div class="panel-container">
-  <span class="heading"> Robot Shooter Game </span>
-  <span class="sub-heading"> Grab the gun with your right hand, pull trigger to shoot. Destroy all robots!</span>
+  <!-- Game Logo -->
+  <div class="game-logo">
+    <span class="logo-text">👽</span>
+  </div>
   
-  <div class="game-stats">
+  <!-- Game Title -->
+  <h1 class="game-title">ALIEN INVASION</h1>
+  <p class="game-subtitle">Defend your spaceship against waves of alien robots</p>
+  
+  <!-- Game Stats Panel -->
+  <div class="game-stats-panel" id="game-stats-panel">
+    <div class="stat-row">
+      <span>Wave:</span>
+      <span class="stat-value" id="wave-indicator">1</span>
+    </div>
+    <div class="stat-row">
+      <span>Score:</span>
+      <span class="stat-value" id="score">0</span>
+    </div>
     <div class="stat-row">
       <span>Robots Destroyed:</span>
-      <span id="score">0</span>
+      <span class="stat-value" id="robots-killed">0</span>
     </div>
     <div class="stat-row">
       <span>Remaining:</span>
-      <span id="remaining">4</span>
+      <span class="stat-value" id="remaining">3</span>
+    </div>
+    <div class="stat-row">
+      <span>Health:</span>
+      <span class="stat-value" id="health">100%</span>
     </div>
     <div class="stat-row">
       <span>Ammo:</span>
-      <span id="ammo">∞</span>
+      <span class="stat-value" id="ammo">40/40</span>
     </div>
   </div>
   
-  <button id="xr-button">Enter XR</button>
-  <button id="start-game">Start Game</button>
+  <!-- Menu Buttons -->
+  <button class="menu-button" id="start-game">🎮 START GAME</button>
+  <button class="menu-button" id="xr-button">👓 ENTER XR</button>
+  <button class="menu-button" id="instructions-button">📖 INSTRUCTIONS</button>
+  <button class="menu-button exit" id="exit-button">🚪 EXIT TO MENU</button>
+  
+  <!-- Instructions Panel -->
+  <div class="instructions-panel" id="instructions-panel">
+    <h3 class="instructions-title">HOW TO PLAY</h3>
+    <ul class="instructions-list">
+      <li class="instructions-item">Grab the gun with your VR controller</li>
+      <li class="instructions-item">Pull trigger to shoot alien robots</li>
+      <li class="instructions-item">Aim for the glowing weak spots</li>
+      <li class="instructions-item">Defend your spaceship from all sides</li>
+      <li class="instructions-item">Watch your ammo and reload when needed</li>
+      <li class="instructions-item">Survive as many waves as possible</li>
+    </ul>
+    <p style="margin-top: 10px; font-size: 12px; color: #71717a;">
+      Desktop: Mouse = Aim, Left Click = Shoot, R = Reload, B = Bomb
+    </p>
+  </div>
+  
+  <!-- Game Over Panel -->
+  <div class="game-over-panel" id="game-over-panel">
+    <h2 class="game-over-title">MISSION FAILED</h2>
+    <div class="game-over-stats">
+      <div class="game-over-stat">Final Wave: <span id="final-wave">1</span></div>
+      <div class="game-over-stat">Final Score: <span id="final-score">0</span></div>
+      <div class="game-over-stat">Robots Destroyed: <span id="final-robots">0</span></div>
+    </div>
+    <button class="menu-button" id="restart-button">🔄 RESTART GAME</button>
+  </div>
 </div>
