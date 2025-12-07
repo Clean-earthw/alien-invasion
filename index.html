@@ -528,8 +528,6 @@
       </p>
     </div>
 
-     <script type="module" src="assets/index-CwSmdDXH.js"></script>
-
     
     <!-- JavaScript -->
     <script>
@@ -763,43 +761,43 @@
       }
 
       // Main update function for HUD
-      function updateHUD(data) {
-        console.log('Updating HUD with:', data);
+      // function updateHUD(data) {
+      //   console.log('Updating HUD with:', data);
         
-        if (data.score !== undefined) {
-          updateScore(data.score);
-        }
-        if (data.wave !== undefined) {
-          updateWave(data.wave);
-        }
-        if (data.kills !== undefined) {
-          updateKills(data.kills);
-        }
-        if (data.health !== undefined) {
-          if (typeof data.health === 'object') {
-            updateHealthBar(data.health.current, data.health.max);
-          } else {
-            updateHealthBar(data.health, window.gameState.health.max);
-          }
-        }
-        if (data.ammo !== undefined) {
-          if (typeof data.ammo === 'object') {
-            updateAmmo(data.ammo.current, data.ammo.max);
-          } else {
-            updateAmmo(data.ammo, window.gameState.ammo.max);
-          }
-        }
-        if (data.bombs !== undefined) {
-          updateBombs(data.bombs);
-        }
-        if (data.status !== undefined) {
-          const color = data.statusColor || '#3b82f6';
-          updateGameStatus(data.status, color);
-        }
-        if (data.gameOver !== undefined && data.gameOver) {
-          showGameOver(data.score || window.gameState.score);
-        }
-      }
+      //   if (data.score !== undefined) {
+      //     updateScore(data.score);
+      //   }
+      //   if (data.wave !== undefined) {
+      //     updateWave(data.wave);
+      //   }
+      //   if (data.kills !== undefined) {
+      //     updateKills(data.kills);
+      //   }
+      //   if (data.health !== undefined) {
+      //     if (typeof data.health === 'object') {
+      //       updateHealthBar(data.health.current, data.health.max);
+      //     } else {
+      //       updateHealthBar(data.health, window.gameState.health.max);
+      //     }
+      //   }
+      //   if (data.ammo !== undefined) {
+      //     if (typeof data.ammo === 'object') {
+      //       updateAmmo(data.ammo.current, data.ammo.max);
+      //     } else {
+      //       updateAmmo(data.ammo, window.gameState.ammo.max);
+      //     }
+      //   }
+      //   if (data.bombs !== undefined) {
+      //     updateBombs(data.bombs);
+      //   }
+      //   if (data.status !== undefined) {
+      //     const color = data.statusColor || '#3b82f6';
+      //     updateGameStatus(data.status, color);
+      //   }
+      //   if (data.gameOver !== undefined && data.gameOver) {
+      //     showGameOver(data.score || window.gameState.score);
+      //   }
+      // }
 
       // Initialize HUD with default values
       function initializeHUD() {
