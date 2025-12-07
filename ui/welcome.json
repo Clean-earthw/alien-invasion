@@ -1,4 +1,177 @@
 {
-  "classes": {},
-  "ranges": {}
+  "element": {
+    "type": "container",
+    "sourceTag": "div",
+    "children": [
+      {
+        "sourceTag": "span",
+        "type": "custom",
+        "children": [
+          "DEFEND THE SPACESHIP!"
+        ],
+        "properties": {
+          "class": "heading"
+        },
+        "dataUid": "uid-2"
+      },
+      {
+        "sourceTag": "span",
+        "type": "custom",
+        "children": [
+          "Grab the turret and defend your spaceship from alien robots. Enter VR to start the battle!"
+        ],
+        "properties": {
+          "class": "sub-heading"
+        },
+        "dataUid": "uid-3"
+      },
+      {
+        "sourceTag": "button",
+        "type": "custom",
+        "children": [
+          "Enter VR"
+        ],
+        "properties": {
+          "id": "xr-button"
+        },
+        "dataUid": "uid-4"
+      }
+    ],
+    "properties": {
+      "class": "panel-container"
+    },
+    "dataUid": "uid-1"
+  },
+  "classes": {
+    "panel-container": {
+      "content": {
+        "alignItems": "flex-start",
+        "padding": "2",
+        "width": "50",
+        "display": "flex",
+        "flexDirection": "column",
+        "backgroundColor": "#09090b",
+        "borderColor": "#27272a",
+        "borderWidth": "0.15",
+        "borderRadius": 3
+      }
+    },
+    "heading": {
+      "content": {
+        "fontSize": "4",
+        "fontWeight": "medium",
+        "color": "#fafafa",
+        "textAlign": "left"
+      }
+    },
+    "sub-heading": {
+      "content": {
+        "fontSize": "2",
+        "color": "#a1a1aa",
+        "textAlign": "left",
+        "marginTop": "0.3"
+      }
+    },
+    "__id__xr-button": {
+      "content": {
+        "width": "100%",
+        "padding": "1.5",
+        "marginTop": "2",
+        "backgroundColor": "#3b82f6",
+        "color": "white",
+        "borderRadius": 1.5,
+        "borderWidth": "0",
+        "fontSize": "2.5",
+        "fontWeight": "medium",
+        "textAlign": "center",
+        "cursor": "pointer",
+        "disabled": {
+          "backgroundColor": "#6b7280",
+          "cursor": "not-allowed"
+        }
+      }
+    }
+  },
+  "ranges": {
+    "panel-container": {
+      "start": {
+        "line": 1,
+        "column": 2
+      },
+      "end": {
+        "line": 1,
+        "column": 18
+      }
+    },
+    "heading": {
+      "start": {
+        "line": 13,
+        "column": 2
+      },
+      "end": {
+        "line": 13,
+        "column": 10
+      }
+    },
+    "sub-heading": {
+      "start": {
+        "line": 20,
+        "column": 2
+      },
+      "end": {
+        "line": 20,
+        "column": 14
+      }
+    },
+    "__id__xr-button": {
+      "start": {
+        "line": 27,
+        "column": 2
+      },
+      "end": {
+        "line": 27,
+        "column": 12
+      }
+    },
+    "uid-1": {
+      "start": {
+        "line": 46,
+        "column": 0
+      },
+      "end": {
+        "line": 50,
+        "column": 6
+      }
+    },
+    "uid-2": {
+      "start": {
+        "line": 47,
+        "column": 2
+      },
+      "end": {
+        "line": 47,
+        "column": 52
+      }
+    },
+    "uid-3": {
+      "start": {
+        "line": 48,
+        "column": 2
+      },
+      "end": {
+        "line": 48,
+        "column": 125
+      }
+    },
+    "uid-4": {
+      "start": {
+        "line": 49,
+        "column": 2
+      },
+      "end": {
+        "line": 49,
+        "column": 42
+      }
+    }
+  }
 }

@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>WebAR Robot Shooter</title>
+    <title>Space Invaders VR</title>
     <style>
       * {
         margin: 0;
@@ -38,16 +38,17 @@
         font-size: 24px;
         text-align: center;
         z-index: 1000;
-        background-color: rgba(0, 0, 0, 0.9);
-        padding: 30px;
+        background-color: rgba(0, 0, 0, 0.95);
+        padding: 40px;
         border-radius: 15px;
-        border: 2px solid #22c55e;
-        min-width: 300px;
+        border: 2px solid #3b82f6;
+        min-width: 350px;
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
       }
 
       .spinner {
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        border-top: 4px solid #22c55e;
+        border: 4px solid rgba(59, 130, 246, 0.3);
+        border-top: 4px solid #3b82f6;
         border-radius: 50%;
         width: 50px;
         height: 50px;
@@ -64,90 +65,118 @@
       .hud-container {
         display: flex;
         flex-direction: column;
-        padding: 15px;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 0, 40, 0.9));
-        border-radius: 12px;
-        border: 2px solid;
-        border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
-        gap: 10px;
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(0, 10, 30, 0.95), rgba(0, 30, 60, 0.95));
+        border-radius: 16px;
+        border: 2px solid #3b82f6;
+        gap: 12px;
         backdrop-filter: blur(10px);
         position: fixed;
         top: 20px;
         right: 20px;
-        min-width: 200px;
+        min-width: 250px;
         z-index: 1000;
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
       }
 
       .game-title {
-        font-size: 22px;
+        font-size: 24px;
         font-weight: bold;
-        background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
+        background: linear-gradient(90deg, #3b82f6, #22c55e, #ef4444);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: center;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         text-transform: uppercase;
         letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
       }
 
       .stat-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 8px 12px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
-        border-left: 3px solid;
+        padding: 10px 15px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        border-left: 4px solid;
+        transition: all 0.3s ease;
+      }
+
+      .stat-row:hover {
+        background: rgba(255, 255, 255, 0.12);
+        transform: translateX(-5px);
       }
 
       .score-row {
-        border-left-color: #ff0000;
+        border-left-color: #ef4444;
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
       }
 
       .wave-row {
-        border-left-color: #00ff00;
+        border-left-color: #22c55e;
+        box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
       }
 
       .kills-row {
-        border-left-color: #0000ff;
+        border-left-color: #3b82f6;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
       }
 
       .health-row {
-        border-left-color: #ff9900;
+        border-left-color: #f59e0b;
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
       }
 
       .stat-label {
         font-size: 16px;
         color: #ffffff;
-        font-weight: 500;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
 
+      .stat-label::before {
+        font-size: 18px;
+      }
+
+      .score-row .stat-label::before { content: "🏆"; }
+      .wave-row .stat-label::before { content: "🌊"; }
+      .kills-row .stat-label::before { content: "💀"; }
+      .health-row .stat-label::before { content: "❤️"; }
+
       .stat-value {
-        font-size: 20px;
+        font-size: 24px;
         font-weight: bold;
         font-family: 'Courier New', monospace;
-        text-shadow: 0 0 10px currentColor;
+        text-shadow: 0 0 15px currentColor;
+        transition: all 0.3s ease;
       }
 
       .score-value {
-        color: #ff0000;
+        color: #ef4444;
       }
 
       .wave-value {
-        color: #00ff00;
+        color: #22c55e;
       }
 
       .kills-value {
-        color: #0000ff;
+        color: #3b82f6;
       }
 
       .health-value {
-        color: #ff9900;
+        color: #f59e0b;
       }
 
       /* Health Bar Styles */
       .health-bar-container {
-        margin-top: 5px;
+        margin-top: 15px;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+        border: 1px solid rgba(245, 158, 11, 0.3);
       }
 
       .health-bar-label {
@@ -155,25 +184,27 @@
         justify-content: space-between;
         font-size: 14px;
         color: #ffffff;
-        margin-bottom: 4px;
+        margin-bottom: 8px;
+        font-weight: 500;
       }
 
       .health-bar {
         width: 100%;
-        height: 12px;
+        height: 16px;
         background: rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
+        border-radius: 8px;
         overflow: hidden;
-        border: 1px solid rgba(255, 153, 0, 0.3);
+        border: 2px solid rgba(245, 158, 11, 0.4);
+        position: relative;
       }
 
       .health-bar-fill {
         height: 100%;
-        background: linear-gradient(90deg, #ff0000, #ff9900, #00ff00);
         border-radius: 6px;
-        transition: width 0.3s ease, background 0.3s ease;
+        transition: width 0.4s ease, background 0.4s ease;
         position: relative;
         overflow: hidden;
+        background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
       }
 
       .health-bar-fill::after {
@@ -185,9 +216,9 @@
         bottom: 0;
         background: linear-gradient(90deg, 
           transparent 0%, 
-          rgba(255, 255, 255, 0.2) 50%, 
+          rgba(255, 255, 255, 0.3) 50%, 
           transparent 100%);
-        animation: shimmer 2s infinite;
+        animation: shimmer 1.5s infinite;
       }
 
       @keyframes shimmer {
@@ -199,77 +230,233 @@
         font-size: 12px;
         color: #ffffff;
         text-align: center;
-        margin-top: 3px;
+        margin-top: 6px;
         font-family: 'Courier New', monospace;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      /* Game Status Indicator */
+      .game-status {
+        margin-top: 10px;
+        padding: 10px;
+        background: rgba(59, 130, 246, 0.2);
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid rgba(59, 130, 246, 0.4);
+      }
+
+      .game-status-text {
+        font-size: 14px;
+        color: #3b82f6;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
       /* DOM Controls */
       .dom-controls {
         position: fixed;
-        bottom: 20px;
+        bottom: 30px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
-        gap: 10px;
+        gap: 15px;
         z-index: 100;
         pointer-events: auto;
       }
 
       .dom-controls button {
-        padding: 12px 24px;
-        background-color: rgba(34, 197, 94, 0.8);
+        padding: 15px 30px;
         color: white;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
-        border: 2px solid #22c55e;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
+        min-width: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       }
 
       .dom-controls button:hover {
-        background-color: rgba(34, 197, 94, 1);
-        transform: scale(1.05);
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
       }
 
       .dom-controls button:active {
-        transform: scale(0.95);
+        transform: translateY(-1px) scale(0.98);
       }
 
-      .dom-controls button.bomb {
-        background-color: rgba(239, 68, 68, 0.8);
-        border-color: #ef4444;
+      #dom-reload-btn {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        border: 2px solid #22c55e;
       }
 
-      .dom-controls button.bomb:hover {
-        background-color: rgba(239, 68, 68, 1);
+      #dom-reload-btn:hover {
+        background: linear-gradient(135deg, #16a34a, #15803d);
       }
 
-      @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
+      #dom-bomb-btn {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        border: 2px solid #ef4444;
+      }
+
+      #dom-bomb-btn:hover {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+      }
+
+      .dom-controls button::before {
+        font-size: 18px;
+      }
+
+      #dom-reload-btn::before { content: "🔁"; }
+      #dom-bomb-btn::before { content: "💣"; }
+
+      /* Ammo Display */
+      .ammo-display {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px;
+        border-radius: 10px;
+        border: 2px solid #3b82f6;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        z-index: 100;
+        min-width: 180px;
+      }
+
+      .ammo-label {
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .ammo-bar {
+        flex: 1;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      .ammo-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        border-radius: 5px;
+        transition: width 0.3s ease;
+      }
+
+      .ammo-text {
+        color: white;
+        font-family: 'Courier New', monospace;
+        font-size: 18px;
+        font-weight: bold;
+        min-width: 50px;
+        text-align: center;
+      }
+
+      /* Bomb Count Display */
+      .bomb-display {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 15px;
+        border-radius: 10px;
+        border: 2px solid #ef4444;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 100;
+      }
+
+      .bomb-count {
+        color: #ef4444;
+        font-size: 24px;
+        font-weight: bold;
+        font-family: 'Courier New', monospace;
+      }
+
+      .bomb-label {
+        color: white;
+        font-size: 14px;
+      }
+
+      /* Game Message Overlay */
+      .game-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.95);
+        padding: 30px 50px;
+        border-radius: 20px;
+        border: 3px solid #3b82f6;
+        text-align: center;
+        z-index: 2000;
+        display: none;
+        box-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
+      }
+
+      .game-message-title {
+        font-size: 36px;
+        color: #3b82f6;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+      }
+
+      .game-message-text {
+        font-size: 18px;
+        color: white;
+        margin-bottom: 30px;
+      }
+
+      .game-message-button {
+        padding: 15px 40px;
+        background: #22c55e;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .game-message-button:hover {
+        background: #16a34a;
+        transform: scale(1.05);
+      }
+
+      /* Wave Start Animation */
+      @keyframes wavePulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      .wave-start {
+        animation: wavePulse 0.5s ease-in-out 3;
       }
     </style>
-    <script type="module" crossorigin src="https://github.com/Clean-earthw/alien-invasion/assets/index-CHzst8YW.js"></script>
+    <script type="module" crossorigin src="https://github.com/Clean-earthw/alien-invasion/assets/index-CwSmdDXH.js"></script>
   </head>
   <body>
     <div id="scene-container"></div>
     
     <!-- HUD -->
     <div class="hud-container">
-      <div class="game-title">SPACE INVASION</div>
+      <div class="game-title">SPACE DEFENSE VR</div>
       
-      <div class="stat-row score-row">
-        <span class="stat-label">SCORE</span>
-        <span id="score-value" class="stat-value score-value">0</span>
-      </div>
-      
-      <div class="stat-row wave-row">
-        <span class="stat-label">WAVE</span>
-        <span id="wave-value" class="stat-value wave-value">1</span>
-      </div>
       
       <div class="stat-row kills-row">
         <span class="stat-label">ELIMINATED</span>
@@ -291,6 +478,25 @@
         </div>
         <div class="health-bar-text" id="health-status">OPTIMAL</div>
       </div>
+
+      <div class="game-status">
+        <span id="game-status-text" class="game-status-text">Ready</span>
+      </div>
+    </div>
+    
+    <!-- Ammo Display -->
+    <div class="ammo-display">
+      <span class="ammo-label">AMMO</span>
+      <div class="ammo-bar">
+        <div id="ammo-fill" class="ammo-fill" style="width: 100%"></div>
+      </div>
+      <span id="ammo-text" class="ammo-text">40/40</span>
+    </div>
+
+    <!-- Bomb Display -->
+    <div class="bomb-display">
+      <span class="bomb-label">BOMBS</span>
+      <span id="bomb-count" class="bomb-count">3</span>
     </div>
     
     <!-- Controls -->
@@ -299,11 +505,25 @@
       <button id="dom-bomb-btn" class="bomb">Bomb (B)</button>
     </div>
     
+    <!-- Game Messages -->
+    <div id="wave-message" class="game-message">
+      <div class="game-message-title" id="wave-title">WAVE 1</div>
+      <div class="game-message-text" id="wave-text">Defend the spaceship!</div>
+      <button class="game-message-button" onclick="hideWaveMessage()">CONTINUE</button>
+    </div>
+
+    <div id="game-over-message" class="game-message">
+      <div class="game-message-title">GAME OVER</div>
+      <div class="game-message-text" id="final-score-text">Score: 0</div>
+      <button class="game-message-button" onclick="restartGame()">PLAY AGAIN</button>
+    </div>
+    
     <!-- Loading Screen -->
     <div id="loading">
       <div class="spinner"></div>
-      <p>Loading WebAR Robot Shooter...</p>
-      <p style="font-size: 14px; margin-top: 10px; color: #aaa;">
+      <p style="font-size: 20px; margin: 20px 0; color: #3b82f6; font-weight: bold;">SPACE DEFENSE VR</p>
+      <p>Loading game assets...</p>
+      <p style="font-size: 14px; margin-top: 15px; color: #aaa;">
         Make sure you're using HTTPS and have WebXR enabled
       </p>
     </div>
@@ -314,16 +534,26 @@
       // DOM Controls
       document.getElementById('dom-reload-btn').addEventListener('click', () => {
         console.log('DOM Reload button clicked');
-        // Dispatch custom event for game systems
         window.dispatchEvent(new CustomEvent('reload-weapon'));
       });
       
       document.getElementById('dom-bomb-btn').addEventListener('click', () => {
         console.log('DOM Bomb button clicked');
-        // Dispatch custom event for game systems
         window.dispatchEvent(new CustomEvent('use-bomb'));
       });
-      
+
+      // Create global game state object
+      window.gameState = {
+        score: 0,
+        wave: 1,
+        kills: 0,
+        health: { current: 100, max: 100 },
+        ammo: { current: 40, max: 40 },
+        bombs: 3,
+        isPlaying: false,
+        gameOver: false
+      };
+
       // Health bar update function
       function updateHealthBar(current, max) {
         const percentage = (current / max) * 100;
@@ -339,21 +569,21 @@
         
         // Update color based on health percentage
         if (percentage > 70) {
-          healthBar.style.background = 'linear-gradient(90deg, #00ff00, #00cc00)';
+          healthBar.style.background = 'linear-gradient(90deg, #22c55e, #16a34a)';
           healthStatus.textContent = 'OPTIMAL';
-          healthStatus.style.color = '#00ff00';
+          healthStatus.style.color = '#22c55e';
         } else if (percentage > 40) {
-          healthBar.style.background = 'linear-gradient(90deg, #ff9900, #ff6600)';
+          healthBar.style.background = 'linear-gradient(90deg, #f59e0b, #d97706)';
           healthStatus.textContent = 'WARNING';
-          healthStatus.style.color = '#ff9900';
+          healthStatus.style.color = '#f59e0b';
         } else if (percentage > 20) {
-          healthBar.style.background = 'linear-gradient(90deg, #ff3300, #cc0000)';
+          healthBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
           healthStatus.textContent = 'CRITICAL';
-          healthStatus.style.color = '#ff3300';
+          healthStatus.style.color = '#ef4444';
         } else {
-          healthBar.style.background = 'linear-gradient(90deg, #ff0000, #990000)';
+          healthBar.style.background = 'linear-gradient(90deg, #dc2626, #991b1b)';
           healthStatus.textContent = 'DANGER';
-          healthStatus.style.color = '#ff0000';
+          healthStatus.style.color = '#dc2626';
           
           // Add pulse animation for critical health
           healthBar.style.animation = 'pulse 0.5s infinite alternate';
@@ -361,34 +591,284 @@
         
         // Update health value color
         if (percentage > 60) {
-          healthValue.style.color = '#00ff00';
+          healthValue.style.color = '#22c55e';
         } else if (percentage > 30) {
-          healthValue.style.color = '#ff9900';
+          healthValue.style.color = '#f59e0b';
         } else {
-          healthValue.style.color = '#ff0000';
-          healthValue.style.textShadow = '0 0 10px #ff0000';
+          healthValue.style.color = '#ef4444';
+          healthValue.style.textShadow = '0 0 15px #ef4444';
         }
+
+        // Update global state
+        window.gameState.health.current = current;
+        window.gameState.health.max = max;
       }
-      
+
+      // Score update function
+      function updateScore(newScore) {
+        const scoreElement = document.getElementById('score-value');
+        const oldScore = parseInt(scoreElement.textContent) || 0;
+        
+        // Update element
+        scoreElement.textContent = newScore;
+        
+        // Animate score increase
+        if (newScore > oldScore) {
+          scoreElement.style.transform = 'scale(1.3)';
+          scoreElement.style.color = '#ffffff';
+          setTimeout(() => {
+            scoreElement.style.transform = 'scale(1)';
+            scoreElement.style.color = '#ef4444';
+          }, 300);
+        }
+
+        // Update global state
+        window.gameState.score = newScore;
+      }
+
+      // Wave update function
+      function updateWave(newWave) {
+        const waveElement = document.getElementById('wave-value');
+        const oldWave = parseInt(waveElement.textContent) || 1;
+        
+        // Update element
+        waveElement.textContent = newWave;
+        
+        // Animate wave change
+        if (newWave > oldWave) {
+          waveElement.classList.add('wave-start');
+          showWaveMessage(newWave);
+          setTimeout(() => {
+            waveElement.classList.remove('wave-start');
+          }, 1500);
+        }
+
+        // Update global state
+        window.gameState.wave = newWave;
+      }
+
+      // Kills update function
+      function updateKills(newKills) {
+        const killsElement = document.getElementById('kills-value');
+        const oldKills = parseInt(killsElement.textContent) || 0;
+        
+        // Update element
+        killsElement.textContent = newKills;
+        
+        // Animate kills increase
+        if (newKills > oldKills) {
+          killsElement.style.transform = 'scale(1.2)';
+          killsElement.style.color = '#ffffff';
+          setTimeout(() => {
+            killsElement.style.transform = 'scale(1)';
+            killsElement.style.color = '#3b82f6';
+          }, 200);
+        }
+
+        // Update global state
+        window.gameState.kills = newKills;
+      }
+
+      // Ammo update function
+      function updateAmmo(current, max) {
+        const percentage = (current / max) * 100;
+        const ammoFill = document.getElementById('ammo-fill');
+        const ammoText = document.getElementById('ammo-text');
+        
+        // Update elements
+        ammoFill.style.width = `${percentage}%`;
+        ammoText.textContent = `${current}/${max}`;
+        
+        // Change color based on ammo level
+        if (percentage > 50) {
+          ammoFill.style.background = 'linear-gradient(90deg, #3b82f6, #60a5fa)';
+        } else if (percentage > 20) {
+          ammoFill.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+        } else {
+          ammoFill.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+        }
+
+        // Update global state
+        window.gameState.ammo.current = current;
+        window.gameState.ammo.max = max;
+      }
+
+      // Bomb count update function
+      function updateBombs(count) {
+        const bombCount = document.getElementById('bomb-count');
+        bombCount.textContent = count;
+        
+        // Animate bomb count change
+        bombCount.style.transform = 'scale(1.3)';
+        setTimeout(() => {
+          bombCount.style.transform = 'scale(1)';
+        }, 200);
+
+        // Update global state
+        window.gameState.bombs = count;
+      }
+
+      // Game status update function
+      function updateGameStatus(status, color = '#3b82f6') {
+        const statusElement = document.getElementById('game-status-text');
+        statusElement.textContent = status.toUpperCase();
+        statusElement.style.color = color;
+      }
+
+      // Show wave start message
+      function showWaveMessage(waveNumber) {
+        const waveMessage = document.getElementById('wave-message');
+        const waveTitle = document.getElementById('wave-title');
+        const waveText = document.getElementById('wave-text');
+        
+        waveTitle.textContent = `WAVE ${waveNumber}`;
+        
+        // Different messages for different waves
+        if (waveNumber === 1) {
+          waveText.textContent = 'Defend the spaceship!';
+        } else if (waveNumber <= 3) {
+          waveText.textContent = 'Enemy forces increasing!';
+        } else if (waveNumber <= 5) {
+          waveText.textContent = 'Heavy enemy presence detected!';
+        } else {
+          waveText.textContent = 'Extreme threat level!';
+        }
+        
+        waveMessage.style.display = 'block';
+      }
+
+      function hideWaveMessage() {
+        document.getElementById('wave-message').style.display = 'none';
+      }
+
+      // Show game over message
+      function showGameOver(finalScore) {
+        const gameOverMessage = document.getElementById('game-over-message');
+        const finalScoreText = document.getElementById('final-score-text');
+        
+        finalScoreText.textContent = `Final Score: ${finalScore}`;
+        gameOverMessage.style.display = 'block';
+        window.gameState.gameOver = true;
+      }
+
+      function hideGameOver() {
+        document.getElementById('game-over-message').style.display = 'none';
+      }
+
+      function restartGame() {
+        hideGameOver();
+        window.dispatchEvent(new CustomEvent('restart-game'));
+      }
+
       // Main update function for HUD
       function updateHUD(data) {
+        console.log('Updating HUD with:', data);
+        
         if (data.score !== undefined) {
-          document.getElementById('score-value').textContent = data.score;
+          updateScore(data.score);
         }
         if (data.wave !== undefined) {
-          document.getElementById('wave-value').textContent = data.wave;
+          updateWave(data.wave);
         }
         if (data.kills !== undefined) {
-          document.getElementById('kills-value').textContent = data.kills;
+          updateKills(data.kills);
         }
         if (data.health !== undefined) {
-          updateHealthBar(data.health.current, data.health.max);
+          if (typeof data.health === 'object') {
+            updateHealthBar(data.health.current, data.health.max);
+          } else {
+            updateHealthBar(data.health, window.gameState.health.max);
+          }
+        }
+        if (data.ammo !== undefined) {
+          if (typeof data.ammo === 'object') {
+            updateAmmo(data.ammo.current, data.ammo.max);
+          } else {
+            updateAmmo(data.ammo, window.gameState.ammo.max);
+          }
+        }
+        if (data.bombs !== undefined) {
+          updateBombs(data.bombs);
+        }
+        if (data.status !== undefined) {
+          const color = data.statusColor || '#3b82f6';
+          updateGameStatus(data.status, color);
+        }
+        if (data.gameOver !== undefined && data.gameOver) {
+          showGameOver(data.score || window.gameState.score);
         }
       }
-      
-      // Expose functions to window
+
+      // Initialize HUD with default values
+      function initializeHUD() {
+        updateScore(0);
+        updateWave(1);
+        updateKills(0);
+        updateHealthBar(100, 100);
+        updateAmmo(40, 40);
+        updateBombs(3);
+        updateGameStatus('Ready', '#22c55e');
+        console.log('HUD initialized');
+      }
+
+      // Call initialization when page loads
+      document.addEventListener('DOMContentLoaded', initializeHUD);
+
+      // Expose functions to window for TypeScript code
       window.updateHUD = updateHUD;
       window.updateHealthBar = updateHealthBar;
+      window.updateScore = updateScore;
+      window.updateWave = updateWave;
+      window.updateKills = updateKills;
+      window.updateAmmo = updateAmmo;
+      window.updateBombs = updateBombs;
+      window.updateGameStatus = updateGameStatus;
+      window.showWaveMessage = showWaveMessage;
+      window.hideWaveMessage = hideWaveMessage;
+      window.showGameOver = showGameOver;
+      window.hideGameOver = hideGameOver;
+
+      // Also expose a simple function for game systems to call
+      window.updateGameUI = function(data) {
+        updateHUD(data);
+      };
+
+      // Listen for updates from game systems
+      window.addEventListener('game-update', function(event) {
+        if (event.detail) {
+          updateHUD(event.detail);
+        }
+      });
+
+      // Helper function for TypeScript to dispatch updates
+      window.dispatchGameUpdate = function(data) {
+        window.dispatchEvent(new CustomEvent('game-update', { detail: data }));
+      };
+
+      // Game control functions
+      window.startGame = function() {
+        updateGameStatus('Playing', '#22c55e');
+        window.gameState.isPlaying = true;
+        window.dispatchEvent(new CustomEvent('game-started'));
+      };
+
+      window.pauseGame = function() {
+        updateGameStatus('Paused', '#f59e0b');
+        window.gameState.isPlaying = false;
+        window.dispatchEvent(new CustomEvent('game-paused'));
+      };
+
+      // Hide loading screen (called from TypeScript)
+      window.hideLoadingScreen = function() {
+        const loading = document.getElementById('loading');
+        if (loading) {
+          loading.style.opacity = '0';
+          loading.style.transition = 'opacity 0.5s ease-out';
+          setTimeout(() => {
+            loading.style.display = 'none';
+          }, 500);
+        }
+      };
     </script>
   </body>
 </html>
