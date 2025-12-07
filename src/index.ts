@@ -84,13 +84,6 @@ World.create(document.getElementById("scene-container") as HTMLDivElement, {
         physics: false,
         sceneUnderstanding: true,
     },
-    renderer: {
-        antialias: true,
-        powerPreference: 'high-performance',
-        alpha: false,
-        stencil: false
-    },
-    worldScale: 1.5,
 }).then((world) => {
     console.log("✅ World created successfully - DEFEND THE SPACESHIP!");
     

@@ -137,14 +137,6 @@ export class GunSystem extends createSystem(
         }
     }
 
-    
-// CRITICAL FIXES - Reverse gun and robot positions while keeping environment intact
-
-// ============================================
-// FIX 1: GUN SYSTEM - Shoot BACKWARD (negative Z)
-// ============================================
-
-// In systems/gun-system.ts - createProjectile method:
 private createProjectile(gunEntity: Entity, damage: number): void {
     const gunObj = gunEntity.object3D;
     if (!gunObj) {
