@@ -358,7 +358,7 @@ function createGameUI() {
     const scorePanel = document.createElement('div');
     scorePanel.style.cssText = `
         width: 320px;
-        height: 380px;
+        height: 450px;
         background: linear-gradient(135deg, rgba(0, 10, 30, 0.95), rgba(0, 20, 40, 0.95));
         border-radius: 20px;
         padding: 25px;

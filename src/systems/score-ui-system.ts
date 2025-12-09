@@ -20,7 +20,7 @@ export class ScoreUISystem extends createSystem({}) {
 
     init() {
         console.log("✨ Score UI System Initialized");
-        this.spawnGameUI();
+        //this.spawnGameUI();
     }
 
     spawnGameUI() {
