@@ -202,55 +202,9 @@ function spawnInitialRobots(world: any, waveSpawnerEntity: any): void {
         }, i * 300); // Small delay between each spawn
     }
     
-    // Show immediate warning
-    showWarningMessage("ALIENS DETECTED!", "Multiple contacts approaching!", 3000);
+   
 }
 
-// NEW FUNCTION: Show warning message
-function showWarningMessage(title: string, message: string, duration: number): void {
-    const warning = document.createElement('div');
-    warning.style.cssText = `
-        position: fixed;
-        top: 20%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, rgba(255, 0, 0, 0.9), rgba(200, 0, 0, 0.95));
-        color: white;
-        padding: 20px 40px;
-        border-radius: 15px;
-        font-family: 'Arial Black', sans-serif;
-        text-align: center;
-        z-index: 10001;
-        border: 3px solid #ffff00;
-        box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
-        animation: warningPulse 0.5s infinite alternate;
-    `;
-    
-    warning.innerHTML = `
-        <div style="color: #ffff00; font-size: 36px; font-weight: bold; margin-bottom: 10px;">⚠️ ${title}</div>
-        <div style="font-size: 24px; margin-bottom: 5px;">${message}</div>
-        <div style="font-size: 16px; color: #ffaaaa;">ENGAGE IMMEDIATELY!</div>
-    `;
-    
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes warningPulse {
-            from { box-shadow: 0 0 20px rgba(255, 0, 0, 0.8); }
-            to { box-shadow: 0 0 40px rgba(255, 255, 0, 0.9); }
-        }
-    `;
-    document.head.appendChild(style);
-    document.body.appendChild(warning);
-    
-    setTimeout(() => {
-        warning.style.opacity = '0';
-        warning.style.transition = 'opacity 0.5s';
-        setTimeout(() => {
-            if (warning.parentNode) warning.parentNode.removeChild(warning);
-            if (style.parentNode) style.parentNode.removeChild(style);
-        }, 500);
-    }, duration);
-}
 
 // NEW FUNCTION: Setup event listeners for immediate response
 function setupEventListeners(world: any, gameStateEntity: any, waveSpawnerEntity: any, playerEntity: any): void {
