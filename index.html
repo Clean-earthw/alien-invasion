@@ -1,394 +1,782 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>WebAR Robot Shooter</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Space Defender VR - Alien Invasion</title>
+
+    <link rel="icon" type="image/x-icon" href="/public/favicon.ico" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Montserrat:wght@400;600;700;900&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+
     <style>
+      /* --- 1. RESET & CORE --- */
       * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
       }
 
-      body {
-        margin: 0;
+      body, html {
+        width: 100%;
+        height: 100%;
         overflow: hidden;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: 'Roboto', sans-serif;
+        color: white;
         background-color: #000;
       }
 
-      #scene-container {
-        width: 100vw;
-        height: 100vh;
-        position: fixed;
+      /* --- 2. BACKGROUND SLIDER --- */
+      #bg-container {
+        position: absolute;
         top: 0;
         left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 5000 !important; /* High Z-Index to cover canvas */
       }
 
+      .bg-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transition: opacity 1.5s ease-in-out;
+      }
+
+      .bg-slide.active {
+        opacity: 1;
+      }
+
+      /* Dark Overlay to make text pop */
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 10, 30, 0.85) 0%, rgba(0, 0, 0, 0.9) 100%);
+        z-index: 1;
+      }
+
+      /* Loading Screen */
       #loading {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 24px;
-        text-align: center;
-        z-index: 1000;
-        background-color: rgba(0, 0, 0, 0.9);
-        padding: 30px;
-        border-radius: 15px;
-        border: 2px solid #22c55e;
-        min-width: 300px;
-      }
-
-      .spinner {
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        border-top: 4px solid #22c55e;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
-        margin: 20px auto;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      /* HUD Styles */
-      .hud-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
         display: flex;
         flex-direction: column;
-        padding: 15px;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 0, 40, 0.9));
-        border-radius: 12px;
-        border: 2px solid;
-        border-image: linear-gradient(45deg, #ff0000, #00ff00, #0000ff) 1;
-        gap: 10px;
-        backdrop-filter: blur(10px);
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        min-width: 200px;
-        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        font-family: 'Orbitron', sans-serif;
       }
 
-      .game-title {
-        font-size: 22px;
-        font-weight: bold;
-        background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff);
+      .loading-content {
+        text-align: center;
+        padding: 40px;
+        border-radius: 20px;
+        background: rgba(0, 20, 40, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 150, 255, 0.3);
+        box-shadow: 0 0 40px rgba(0, 150, 255, 0.2);
+      }
+
+      .loading-title {
+        font-size: 32px;
+        margin-bottom: 20px;
+        color: #00d4ff;
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.7);
+      }
+
+      .loading-bar {
+        width: 300px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        margin: 30px auto;
+        overflow: hidden;
+      }
+
+      .loading-progress {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #00d4ff, #0088ff);
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
+
+      /* --- 3. LANDING CONTENT --- */
+      #landing-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999 !important; /* Highest Z-Index */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition: opacity 0.8s ease;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      #landing-content.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* --- 4. TYPOGRAPHY --- */
+      .nav-bar {
+        position: absolute;
+        top: 40px;
+        left: 50px;
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        font-size: 28px;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        z-index: 10000; /* Above everything */
+      }
+
+      .logo-icon {
+        font-size: 36px;
+        color: #00d4ff;
+        text-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+      }
+
+      .small-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        font-weight: 600;
+        color: #00d4ff;
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+      }
+
+      .main-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 6rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+        line-height: 1.1;
+        letter-spacing: 3px;
+        background: linear-gradient(135deg, #00d4ff 0%, #0088ff 50%, #0044ff 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-align: center;
-        margin-bottom: 5px;
+        background-clip: text;
+        text-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
+      }
+
+      .subtitle {
+        font-size: 20px;
+        max-width: 700px;
+        line-height: 1.7;
+        margin-bottom: 60px;
+        color: #b8e2ff;
+        font-weight: 300;
+        background: rgba(0, 20, 40, 0.5);
+        padding: 25px 40px;
+        border-radius: 15px;
+        border: 1px solid rgba(0, 150, 255, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      /* --- 5. BUTTON --- */
+      .enter-btn {
+        padding: 22px 55px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: #000;
+        background: linear-gradient(135deg, #00d4ff 0%, #0088ff 100%);
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
         text-transform: uppercase;
         letter-spacing: 2px;
-      }
-
-      .stat-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px 12px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
-        border-left: 3px solid;
-      }
-
-      .score-row {
-        border-left-color: #ff0000;
-      }
-
-      .wave-row {
-        border-left-color: #00ff00;
-      }
-
-      .kills-row {
-        border-left-color: #0000ff;
-      }
-
-      .health-row {
-        border-left-color: #ff9900;
-      }
-
-      .stat-label {
-        font-size: 16px;
-        color: #ffffff;
-        font-weight: 500;
-      }
-
-      .stat-value {
-        font-size: 20px;
-        font-weight: bold;
-        font-family: 'Courier New', monospace;
-        text-shadow: 0 0 10px currentColor;
-      }
-
-      .score-value {
-        color: #ff0000;
-      }
-
-      .wave-value {
-        color: #00ff00;
-      }
-
-      .kills-value {
-        color: #0000ff;
-      }
-
-      .health-value {
-        color: #ff9900;
-      }
-
-      /* Health Bar Styles */
-      .health-bar-container {
-        margin-top: 5px;
-      }
-
-      .health-bar-label {
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        color: #ffffff;
-        margin-bottom: 4px;
-      }
-
-      .health-bar {
-        width: 100%;
-        height: 12px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-        overflow: hidden;
-        border: 1px solid rgba(255, 153, 0, 0.3);
-      }
-
-      .health-bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #ff0000, #ff9900, #00ff00);
-        border-radius: 6px;
-        transition: width 0.3s ease, background 0.3s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
         position: relative;
         overflow: hidden;
       }
 
-      .health-bar-fill::after {
+      .enter-btn:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 0 50px rgba(0, 212, 255, 0.8);
+        background: linear-gradient(135deg, #00e6ff 0%, #0099ff 100%);
+      }
+
+      .enter-btn:active {
+        transform: translateY(-2px) scale(1.02);
+      }
+
+      .enter-btn::after {
         content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: rotate(45deg);
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        0% { transform: translateX(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) rotate(45deg); }
+      }
+
+      /* Stats Cards */
+      .stats-container {
+        display: flex;
+        gap: 20px;
+        margin-top: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .stat-card {
+        background: rgba(0, 30, 60, 0.7);
+        padding: 20px 30px;
+        border-radius: 12px;
+        border: 1px solid rgba(0, 150, 255, 0.2);
+        min-width: 180px;
+        backdrop-filter: blur(10px);
+      }
+
+      .stat-value {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: #00d4ff;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        color: #88c4ff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* --- 3D CONTAINER --- */
+      #scene-container {
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(90deg, 
-          transparent 0%, 
-          rgba(255, 255, 255, 0.2) 50%, 
-          transparent 100%);
-        animation: shimmer 2s infinite;
+        width: 100%;
+        height: 100%;
+        z-index: 1; /* Starts below UI */
+        pointer-events: none; /* Let clicks pass through until activated */
       }
 
-      @keyframes shimmer {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
+      /* Game UI Elements (will be shown after game starts) */
+      #game-ui {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        pointer-events: none;
       }
 
-      .health-bar-text {
-        font-size: 12px;
-        color: #ffffff;
-        text-align: center;
-        margin-top: 3px;
-        font-family: 'Courier New', monospace;
+      /* ==================== RESPONSIVE STYLES ==================== */
+
+      /* Tablet Devices (768px - 1024px) */
+      @media screen and (max-width: 1024px) {
+        .nav-bar {
+          left: 30px;
+          top: 30px;
+          font-size: 24px;
+        }
+        
+        .logo-icon {
+          font-size: 30px;
+        }
+        
+        .main-title {
+          font-size: 5rem;
+          margin-bottom: 25px;
+        }
+        
+        .subtitle {
+          font-size: 18px;
+          max-width: 650px;
+          margin-bottom: 50px;
+          padding: 20px 30px;
+        }
+        
+        .enter-btn {
+          padding: 20px 50px;
+          font-size: 15px;
+        }
+        
+        .stat-card {
+          min-width: 160px;
+          padding: 15px 25px;
+        }
+        
+        .stat-value {
+          font-size: 28px;
+        }
       }
 
-      /* DOM Controls */
-      .dom-controls {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 10px;
-        z-index: 100;
-        pointer-events: auto;
+      /* Mobile Landscape & Small Tablets (576px - 768px) */
+      @media screen and (max-width: 768px) {
+        .nav-bar {
+          left: 20px;
+          top: 25px;
+          font-size: 22px;
+        }
+        
+        .logo-icon {
+          font-size: 28px;
+        }
+        
+        .main-title {
+          font-size: 4rem;
+          margin-bottom: 20px;
+        }
+        
+        .small-title {
+          font-size: 14px;
+          letter-spacing: 3px;
+          margin-bottom: 15px;
+        }
+        
+        .subtitle {
+          font-size: 17px;
+          max-width: 550px;
+          margin-bottom: 45px;
+          padding: 20px;
+        }
+        
+        .enter-btn {
+          padding: 18px 45px;
+          font-size: 14px;
+        }
+        
+        .stats-container {
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+        }
+        
+        .stat-card {
+          width: 80%;
+          max-width: 300px;
+        }
       }
 
-      .dom-controls button {
-        padding: 12px 24px;
-        background-color: rgba(34, 197, 94, 0.8);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        border: 2px solid #22c55e;
-        transition: all 0.2s;
+      /* Mobile Portrait (up to 576px) */
+      @media screen and (max-width: 576px) {
+        .nav-bar {
+          left: 15px;
+          top: 20px;
+          font-size: 20px;
+          gap: 10px;
+        }
+        
+        .logo-icon {
+          font-size: 26px;
+        }
+        
+        .main-title {
+          font-size: 3rem;
+          margin-bottom: 15px;
+          letter-spacing: 2px;
+          padding: 0 15px;
+        }
+        
+        .small-title {
+          font-size: 13px;
+          letter-spacing: 2.5px;
+          margin-bottom: 12px;
+        }
+        
+        .subtitle {
+          font-size: 16px;
+          max-width: 90%;
+          margin-bottom: 40px;
+          line-height: 1.6;
+          padding: 18px;
+        }
+        
+        .enter-btn {
+          padding: 16px 40px;
+          font-size: 13px;
+          min-width: 240px;
+        }
+        
+        #landing-content {
+          padding: 15px;
+        }
+        
+        .loading-title {
+          font-size: 24px;
+        }
+        
+        .loading-bar {
+          width: 250px;
+        }
       }
 
-      .dom-controls button:hover {
-        background-color: rgba(34, 197, 94, 1);
-        transform: scale(1.05);
+      /* Very Small Mobile Devices (up to 360px) */
+      @media screen and (max-width: 360px) {
+        .nav-bar {
+          font-size: 18px;
+          left: 12px;
+          top: 15px;
+        }
+        
+        .logo-icon {
+          font-size: 24px;
+        }
+        
+        .main-title {
+          font-size: 2.5rem;
+          margin-bottom: 12px;
+        }
+        
+        .small-title {
+          font-size: 12px;
+          letter-spacing: 2px;
+        }
+        
+        .subtitle {
+          font-size: 15px;
+          margin-bottom: 35px;
+          padding: 15px;
+        }
+        
+        .enter-btn {
+          padding: 14px 35px;
+          font-size: 12px;
+          min-width: 220px;
+        }
+        
+        .stat-value {
+          font-size: 24px;
+        }
       }
 
-      .dom-controls button:active {
-        transform: scale(0.95);
+      /* Height-based adjustments for very tall/short screens */
+      @media screen and (max-height: 600px) {
+        #landing-content {
+          justify-content: flex-start;
+          padding-top: 120px;
+        }
+        
+        .main-title {
+          font-size: 4rem;
+          margin-bottom: 20px;
+        }
+        
+        .subtitle {
+          margin-bottom: 40px;
+          padding: 15px;
+        }
+        
+        .nav-bar {
+          top: 20px;
+        }
+        
+        .stats-container {
+          margin-top: 30px;
+        }
       }
 
-      .dom-controls button.bomb {
-        background-color: rgba(239, 68, 68, 0.8);
-        border-color: #ef4444;
-      }
-
-      .dom-controls button.bomb:hover {
-        background-color: rgba(239, 68, 68, 1);
-      }
-
-      @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
+      /* Prevent text from becoming too small on very small screens */
+      @media screen and (max-width: 300px) {
+        .main-title {
+          font-size: 2rem;
+        }
+        
+        .small-title {
+          font-size: 11px;
+          letter-spacing: 1.5px;
+        }
+        
+        .subtitle {
+          font-size: 14px;
+        }
+        
+        .enter-btn {
+          padding: 12px 30px;
+          font-size: 11px;
+          min-width: 200px;
+        }
       }
     </style>
   </head>
   <body>
-    <div id="scene-container"></div>
-    
-    <!-- HUD -->
-    <div class="hud-container">
-      <div class="game-title">SPACE INVASION</div>
-      
-      <div class="stat-row score-row">
-        <span class="stat-label">SCORE</span>
-        <span id="score-value" class="stat-value score-value">0</span>
-      </div>
-      
-      <div class="stat-row wave-row">
-        <span class="stat-label">WAVE</span>
-        <span id="wave-value" class="stat-value wave-value">1</span>
-      </div>
-      
-      <div class="stat-row kills-row">
-        <span class="stat-label">ELIMINATED</span>
-        <span id="kills-value" class="stat-value kills-value">0</span>
-      </div>
-      
-      <div class="stat-row health-row">
-        <span class="stat-label">HEALTH</span>
-        <span id="health-value" class="stat-value health-value">100</span>
-      </div>
-      
-      <div class="health-bar-container">
-        <div class="health-bar-label">
-          <span>SHIELD INTEGRITY</span>
-          <span id="health-percent">100%</span>
-        </div>
-        <div class="health-bar">
-          <div id="health-bar-fill" class="health-bar-fill" style="width: 100%"></div>
-        </div>
-        <div class="health-bar-text" id="health-status">OPTIMAL</div>
-      </div>
-    </div>
-    
-    <!-- Controls -->
-    <div class="dom-controls">
-      <button id="dom-reload-btn">Reload (R)</button>
-      <button id="dom-bomb-btn" class="bomb">Bomb (B)</button>
-    </div>
-    
+
     <!-- Loading Screen -->
     <div id="loading">
-      <div class="spinner"></div>
-      <p>Loading WebAR Robot Shooter...</p>
-      <p style="font-size: 14px; margin-top: 10px; color: #aaa;">
-        Make sure you're using HTTPS and have WebXR enabled
-      </p>
+      <div class="loading-content">
+        <div class="logo-icon">🚀</div>
+        <h1 class="loading-title">LOADING SPACE DEFENDER</h1>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
+        </div>
+        <p style="color: #88c4ff;">Initializing hyperspace engines...</p>
+      </div>
     </div>
 
-    <script type="module" src="/src/index.ts"></script>
-    
-    <!-- JavaScript -->
-    <script>
-      // DOM Controls
-      document.getElementById('dom-reload-btn').addEventListener('click', () => {
-        console.log('DOM Reload button clicked');
-        // Dispatch custom event for game systems
-        window.dispatchEvent(new CustomEvent('reload-weapon'));
-      });
+    <!-- Background Slider -->
+    <div id="bg-container">
+       <!-- Space-themed backgrounds -->
+       <div class="bg-slide active" style="background-image: url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80');"></div> 
+       <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');"></div> 
+       <div class="bg-slide" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2027&q=80');"></div> 
+       <div class="overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-bar">
+      <span class="logo-icon">🛸</span> SPACE DEFENDER
+    </div>
+
+    <!-- Main Content -->
+    <div id="landing-content">
+      <p class="small-title">VR IMMERSIVE DEFENSE GAME</p>
+      <h1 class="main-title">ALIEN INVASION</h1>
+      <p class="subtitle">
+        You are the last line of defense for the spaceship Hyperion. Alien forces are attacking through hyperspace portals. 
+        Grab the energy cannon and defend the ship before they breach the hull!
+      </p>
       
-      document.getElementById('dom-bomb-btn').addEventListener('click', () => {
-        console.log('DOM Bomb button clicked');
-        // Dispatch custom event for game systems
-        window.dispatchEvent(new CustomEvent('use-bomb'));
-      });
+      <button id="enter-btn" class="enter-btn">ENTER VR BATTLEFIELD</button>
       
-      // Health bar update function
-      function updateHealthBar(current, max) {
-        const percentage = (current / max) * 100;
-        const healthBar = document.getElementById('health-bar-fill');
-        const healthValue = document.getElementById('health-value');
-        const healthPercent = document.getElementById('health-percent');
-        const healthStatus = document.getElementById('health-status');
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-value">5</div>
+          <div class="stat-label">Waves to Survive</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">40</div>
+          <div class="stat-label">Energy Ammo</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Hull Integrity</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">∞</div>
+          <div class="stat-label">Aliens to Destroy</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Container -->
+    <div id="scene-container"></div>
+
+    <!-- Game UI (Hidden initially) -->
+    <div id="game-ui" style="display: none;"></div>
+
+    <!-- MAIN SCRIPT: Handles UI and Starts App on Click -->
+    <script type="module">
+      // Import the start function
+      import { startExperience } from "./src/index.ts";
+
+      const btn = document.getElementById('enter-btn');
+      const content = document.getElementById('landing-content');
+      const navBar = document.querySelector('.nav-bar');
+      const bgContainer = document.getElementById('bg-container');
+      const sceneContainer = document.getElementById('scene-container');
+      const loadingScreen = document.getElementById('loading');
+      const loadingProgress = document.querySelector('.loading-progress');
+      
+      // Simulate loading progress
+      let progress = 0;
+      const loadingInterval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress > 90) {
+          clearInterval(loadingInterval);
+          progress = 100;
+        }
+        if (loadingProgress) {
+          loadingProgress.style.width = progress + '%';
+        }
+      }, 300);
+
+      // --- SLIDER LOGIC ---
+      const slides = document.querySelectorAll('.bg-slide');
+      let currentSlide = 0;
+      function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      }
+      setInterval(nextSlide, 5000);
+
+      // --- ENTER LOGIC ---
+      btn.addEventListener('click', async () => {
+        console.log("🚀 User Clicked Enter - Starting Space Defense VR...");
+
+        // 1. Hide loading screen
+        if (loadingScreen) {
+          loadingScreen.style.transition = "opacity 0.5s ease";
+          loadingScreen.style.opacity = "0";
+          setTimeout(() => {
+            loadingScreen.style.display = "none";
+          }, 500);
+        }
+
+        // 2. Fade out UI with effects
+        content.style.transition = "all 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+        content.style.opacity = "0";
+        content.style.transform = "translateY(50px)";
         
-        // Update values
-        healthBar.style.width = `${percentage}%`;
-        healthValue.textContent = Math.round(current);
-        healthPercent.textContent = `${Math.round(percentage)}%`;
+        if(navBar) {
+          navBar.style.transition = "opacity 0.8s ease";
+          navBar.style.opacity = "0";
+        }
         
-        // Update color based on health percentage
-        if (percentage > 70) {
-          healthBar.style.background = 'linear-gradient(90deg, #00ff00, #00cc00)';
-          healthStatus.textContent = 'OPTIMAL';
-          healthStatus.style.color = '#00ff00';
-        } else if (percentage > 40) {
-          healthBar.style.background = 'linear-gradient(90deg, #ff9900, #ff6600)';
-          healthStatus.textContent = 'WARNING';
-          healthStatus.style.color = '#ff9900';
-        } else if (percentage > 20) {
-          healthBar.style.background = 'linear-gradient(90deg, #ff3300, #cc0000)';
-          healthStatus.textContent = 'CRITICAL';
-          healthStatus.style.color = '#ff3300';
-        } else {
-          healthBar.style.background = 'linear-gradient(90deg, #ff0000, #990000)';
-          healthStatus.textContent = 'DANGER';
-          healthStatus.style.color = '#ff0000';
+        // 3. Fade out Background with starfield effect
+        setTimeout(() => {
+          bgContainer.style.transition = "opacity 1.5s ease, filter 2s ease";
+          bgContainer.style.opacity = "0";
+          bgContainer.style.filter = "blur(20px)";
           
-          // Add pulse animation for critical health
-          healthBar.style.animation = 'pulse 0.5s infinite alternate';
-        }
+          // Create hyperspace effect
+          const hyperspaceEffect = document.createElement('div');
+          hyperspaceEffect.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+              #000 0%, 
+              #001133 20%, 
+              #003366 40%, 
+              #0066cc 60%, 
+              #00d4ff 80%, 
+              #ffffff 100%);
+            z-index: 9998;
+            opacity: 0;
+            animation: hyperspace 1.5s ease-out;
+          `;
+          
+          document.body.appendChild(hyperspaceEffect);
+          
+          // Define hyperspace animation
+          const style = document.createElement('style');
+          style.textContent = `
+            @keyframes hyperspace {
+              0% { opacity: 0; transform: scale(0.8); filter: blur(0px); }
+              50% { opacity: 1; transform: scale(1.2); filter: blur(20px); }
+              100% { opacity: 0; transform: scale(3); filter: blur(50px); }
+            }
+          `;
+          document.head.appendChild(style);
+          
+          // Remove from DOM to save performance
+          setTimeout(() => {
+            bgContainer.remove();
+            hyperspaceEffect.remove();
+            style.remove();
+          }, 2000);
+        }, 800);
+
+        // 4. Enable pointer events for the 3D scene
+        sceneContainer.style.pointerEvents = "auto";
         
-        // Update health value color
-        if (percentage > 60) {
-          healthValue.style.color = '#00ff00';
-        } else if (percentage > 30) {
-          healthValue.style.color = '#ff9900';
-        } else {
-          healthValue.style.color = '#ff0000';
-          healthValue.style.textShadow = '0 0 10px #ff0000';
+        // 5. Initialize the 3D World!
+        try {
+          await startExperience();
+        } catch (error) {
+          console.error("Failed to start experience:", error);
+          // Show error message
+          const errorDiv = document.createElement('div');
+          errorDiv.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 100000;
+            font-family: 'Orbitron', sans-serif;
+          `;
+          errorDiv.innerHTML = `
+            <h2>🚨 INITIALIZATION FAILED</h2>
+            <p>${error.message || 'Unknown error occurred'}</p>
+            <button onclick="location.reload()" style="
+              margin-top: 20px;
+              padding: 10px 20px;
+              background: white;
+              color: #ff0000;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-weight: bold;
+            ">🔄 RETRY</button>
+          `;
+          document.body.appendChild(errorDiv);
         }
-      }
-      
-      // Main update function for HUD
-      function updateHUD(data) {
-        if (data.score !== undefined) {
-          document.getElementById('score-value').textContent = data.score;
+
+        // 6. Unlock Audio
+        if (window.AudioContext || window.webkitAudioContext) {
+           const AudioContext = window.AudioContext || window.webkitAudioContext;
+           const audioContext = new AudioContext();
+           if (audioContext.state === 'suspended') {
+             audioContext.resume();
+           }
+           
+           // Create a silent audio node to keep audio context alive
+           const oscillator = audioContext.createOscillator();
+           const gainNode = audioContext.createGain();
+           gainNode.gain.value = 0.001;
+           oscillator.connect(gainNode);
+           gainNode.connect(audioContext.destination);
+           oscillator.start();
+           oscillator.stop(audioContext.currentTime + 0.001);
         }
-        if (data.wave !== undefined) {
-          document.getElementById('wave-value').textContent = data.wave;
+      });
+
+      // Auto-hide loading screen after 3 seconds if user doesn't click
+      setTimeout(() => {
+        if (loadingScreen && loadingScreen.style.display !== 'none') {
+          loadingScreen.style.transition = "opacity 0.5s ease";
+          loadingScreen.style.opacity = "0";
+          setTimeout(() => {
+            loadingScreen.style.display = "none";
+          }, 500);
         }
-        if (data.kills !== undefined) {
-          document.getElementById('kills-value').textContent = data.kills;
-        }
-        if (data.health !== undefined) {
-          updateHealthBar(data.health.current, data.health.max);
-        }
-      }
-      
-      // Expose functions to window
-      window.updateHUD = updateHUD;
-      window.updateHealthBar = updateHealthBar;
+      }, 3000);
     </script>
   </body>
 </html>

@@ -9,7 +9,8 @@ import {
     AudioSource,
     Quaternion,
     BoxGeometry,
-    CylinderGeometry
+    CylinderGeometry,
+    Group
 } from "@iwsdk/core";
 import * as THREE from 'three';
 import { 
@@ -20,6 +21,7 @@ import {
     GameSound,
     ToRemove
 } from "../components.js";
+import { WaveSystem } from "./wave-system.js";
 
 // Robot type definitions - ADDED 'type' PROPERTY
 const ROBOT_TYPES = {
@@ -345,54 +347,63 @@ export class RobotSystem extends createSystem(
     // ============================================
     // PUBLIC METHOD: Create a robot with specific type
     // ============================================
-    public createRobot(position: Vector3, type: string = "easy"): Entity {
-        const typeConfig = ROBOT_TYPES[type as keyof typeof ROBOT_TYPES] || ROBOT_TYPES.easy;
-        
-        // Create robot mesh based on type
-        const robotMesh = this.createRobotMesh(type, typeConfig);
-        robotMesh.position.copy(position);
-        
-        // Create entity
-        const robotEntity = this.world.createTransformEntity(robotMesh)
-            .addComponent(Robot, {
-                type: type,
-                tier: type === "easy" ? 1 : type === "medium" ? 2 : 3,
-                health: typeConfig.health,
-                maxHealth: typeConfig.maxHealth,
-                speed: typeConfig.speed,
-                attackDamage: typeConfig.attackDamage,
-                attackCooldown: typeConfig.attackCooldown,
-                points: typeConfig.points,
-                scaleMultiplier: typeConfig.scale,
-                armor: typeConfig.armor,
-                lockOnDifficulty: typeConfig.lockOnDifficulty,
-                targetPriority: typeConfig.targetPriority
-            })
-            .addComponent(GameSound, {
-                soundType: "robot",
-                shouldPlay: false,
-                lastPlayTime: 0.0
-            });
-        
-        // Add floating animation data
-        (robotMesh as any).userData = {
-            floatHeight: position.y,
-            floatSpeed: 1.0 + Math.random() * 0.5,
-            timeOffset: Math.random() * Math.PI * 2,
-            bobAmount: 0.1 + Math.random() * 0.05
-        };
-        
-        // Cache the mesh
-        this.robotMeshes.set(robotEntity.index, robotMesh);
-        
-        // Play spawn sound for boss
-        if (type === "boss") {
-            this.playGlobalSound(this.SPAWN_SOUND, 1.0);
+      public createRobot(position: Vector3, type: string = "scout"): Entity {
+        // Call the WaveSystem's robot creation method
+        const waveSystem = this.world.getSystem(WaveSystem);
+        if (waveSystem && (waveSystem as any).createRobotByType) {
+            // We'll need to pass the wave number - default to 1 for now
+            const robotId = Math.floor(Math.random() * 1000);
+            (waveSystem as any).createRobotByType(position, robotId, 1, type);
+            
+            // Find and return the created entity
+            for (const entity of this.queries.activeRobots.entities) {
+                if (entity.getValue(Robot, "id") === robotId) {
+                    return entity;
+                }
+            }
         }
         
-        console.log(`🤖 Created ${type.toUpperCase()} robot at ${position.x.toFixed(1)}, ${position.y.toFixed(1)}, ${position.z.toFixed(1)}`);
-        return robotEntity;
+        // Fallback to basic robot if WaveSystem method not available
+        return this.createBasicRobot(position, type);
     }
+    
+    private createBasicRobot(position: Vector3, type: string): Entity {
+        const group = new Group();
+        
+        // Basic fallback robot
+        const bodyGeo = new SphereGeometry(1.0, 16, 16);
+        const bodyMat = new MeshStandardMaterial({ 
+            color: 0xff0000,
+            emissive: 0x440000,
+            emissiveIntensity: 0.6
+        });
+        const body = new Mesh(bodyGeo, bodyMat);
+        group.add(body);
+        
+        group.position.copy(position);
+        
+        return this.world
+            .createTransformEntity(group)
+            .addComponent(Robot, {
+                id: Math.floor(Math.random() * 1000),
+                type: type,
+                tier: 1,
+                health: 100,
+                maxHealth: 100,
+                speed: 0.3,
+                attackDamage: 15,
+                attackRange: 25.0,
+                attackCooldown: 2.0,
+                lastAttackTime: 0.0,
+                isDead: false,
+                points: 100,
+                scaleMultiplier: 1.0,
+                armor: 0.0,
+                lockOnDifficulty: 0.1,
+                targetPriority: 1.0
+            });
+    }
+    
 
         private createCentralExplosion(position: Vector3, scaleMultiplier: number): void {
         // Large central explosion

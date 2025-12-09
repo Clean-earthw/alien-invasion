@@ -1,0 +1,165 @@
+<panel class="wave-panel">
+  <container class="wave-header">
+    <text class="wave-icon">🌊</text>
+    <text class="wave-title" id="wave-number">WAVE 1/5</text>
+  </container>
+  
+  <container class="wave-progress-container">
+    <container class="wave-progress-track">
+      <container class="wave-progress-fill" id="wave-progress" style="width: 0%"></container>
+    </container>
+    <text class="wave-progress-text" id="wave-progress-text">0/3</text>
+  </container>
+  
+  <container class="enemy-info">
+    <text class="enemy-label" id="robots-alive">3/3 ALIENS</text>
+  </container>
+  
+  <container class="wave-stats">
+    <container class="wave-stat">
+      <text class="wave-stat-icon">🎯</text>
+      <text class="wave-stat-value">EASY</text>
+    </container>
+    <container class="wave-stat">
+      <text class="wave-stat-icon">⚠️</text>
+      <text class="wave-stat-value">MEDIUM</text>
+    </container>
+    <container class="wave-stat">
+      <text class="wave-stat-icon">👑</text>
+      <text class="wave-stat-value">BOSS</text>
+    </container>
+  </container>
+  
+  <container class="next-wave-info">
+    <text class="next-wave-label">NEXT WAVE:</text>
+    <text class="next-wave-value">5 ALIENS</text>
+  </container>
+</panel>
+
+<style>
+  .wave-panel {
+    width: 320px;
+    height: 380px;
+    background: linear-gradient(135deg, rgba(30, 0, 50, 0.95), rgba(50, 0, 80, 0.95));
+    border-radius: 20px;
+    padding: 25px;
+    border: 2px solid #ff00ff;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+  }
+  
+  .wave-header {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .wave-icon {
+    font-size: 36px;
+  }
+  
+  .wave-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #ff00ff, #00ffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .wave-progress-container {
+    width: 100%;
+    margin-bottom: 25px;
+  }
+  
+  .wave-progress-track {
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  
+  .wave-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff00ff, #8800ff);
+    border-radius: 5px;
+    transition: width 0.5s ease;
+  }
+  
+  .wave-progress-text {
+    font-size: 16px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .enemy-info {
+    width: 100%;
+    background: rgba(255, 0, 255, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 25px;
+    border: 2px solid rgba(255, 0, 255, 0.4);
+  }
+  
+  .enemy-label {
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .wave-stats {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+  
+  .wave-stat {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .wave-stat-icon {
+    font-size: 24px;
+  }
+  
+  .wave-stat-value {
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  .next-wave-info {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.3);
+  }
+  
+  .next-wave-label {
+    font-size: 16px;
+    color: #88ffff;
+  }
+  
+  .next-wave-value {
+    font-size: 18px;
+    color: #00ffff;
+    font-weight: bold;
+  }
+</style>

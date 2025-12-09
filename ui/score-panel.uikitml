@@ -1,0 +1,146 @@
+<panel class="score-panel">
+  <container class="score-header">
+    <text class="score-title">🚀 SPACE DEFENSE</text>
+  </container>
+  
+  <container class="stats-container">
+    <container class="stat-row">
+      <text class="stat-label">SCORE</text>
+      <text class="stat-value" id="score-value">0</text>
+    </container>
+    
+    <container class="stat-row">
+      <text class="stat-label">ELIMINATED</text>
+      <text class="stat-value" id="kills-value">0</text>
+    </container>
+    
+    <container class="stat-row">
+      <text class="stat-label">SHIELD</text>
+      <text class="stat-value" id="health-value">100%</text>
+    </container>
+  </container>
+  
+  <container class="health-container">
+    <text class="health-label">SHIELD INTEGRITY</text>
+    <container class="health-bar">
+      <container class="health-fill" id="health-bar" style="width: 100%"></container>
+    </container>
+  </container>
+  
+  <container class="ammo-info">
+    <text class="ammo-label">LASER AMMO: 40/40</text>
+    <text class="bomb-label">BOMBS: 3</text>
+  </container>
+</panel>
+
+<style>
+  .score-panel {
+    width: 320px;
+    height: 380px;
+    background: linear-gradient(135deg, rgba(0, 10, 30, 0.95), rgba(0, 20, 40, 0.95));
+    border-radius: 20px;
+    padding: 25px;
+    border: 2px solid #0088ff;
+    box-shadow: 0 0 30px rgba(0, 136, 255, 0.3);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+  }
+  
+  .score-header {
+    width: 100%;
+    border-bottom: 2px solid rgba(0, 136, 255, 0.5);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .score-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  .stats-container {
+    width: 100%;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .stat-row {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: rgba(0, 40, 80, 0.4);
+    border-radius: 10px;
+    border-left: 4px solid;
+  }
+  
+  .stat-row:nth-child(1) { border-left-color: #ff0000; }
+  .stat-row:nth-child(2) { border-left-color: #00ff00; }
+  .stat-row:nth-child(3) { border-left-color: #0088ff; }
+  
+  .stat-label {
+    font-size: 16px;
+    color: #88ccff;
+    font-weight: bold;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: monospace;
+    text-shadow: 0 0 10px currentColor;
+  }
+  
+  #score-value { color: #ff0000; }
+  #kills-value { color: #00ff00; }
+  #health-value { color: #0088ff; }
+  
+  .health-container {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .health-label {
+    font-size: 14px;
+    color: #88ccff;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  
+  .health-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 136, 255, 0.3);
+  }
+  
+  .health-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00, #0088ff);
+    border-radius: 6px;
+    transition: width 0.3s ease;
+  }
+  
+  .ammo-info {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .ammo-label, .bomb-label {
+    font-size: 14px;
+    color: #88aaff;
+    font-weight: bold;
+  }
+</style>

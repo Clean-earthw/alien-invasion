@@ -1,3 +1,4 @@
+// components.ts (no changes needed - it's correct)
 import { createComponent, Types } from "@iwsdk/core";
 
 // Game state management
