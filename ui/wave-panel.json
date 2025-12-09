@@ -1,0 +1,804 @@
+{
+  "element": {
+    "type": "container",
+    "sourceTag": "div",
+    "children": [
+      {
+        "sourceTag": "panel",
+        "type": "custom",
+        "children": [
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "🌊"
+                ],
+                "properties": {
+                  "class": "wave-icon"
+                },
+                "dataUid": "uid-3"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "WAVE 1/5"
+                ],
+                "properties": {
+                  "class": "wave-title",
+                  "id": "wave-number"
+                },
+                "dataUid": "uid-4"
+              }
+            ],
+            "properties": {
+              "class": "wave-header"
+            },
+            "dataUid": "uid-2"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "container",
+                "type": "custom",
+                "children": [
+                  {
+                    "sourceTag": "container",
+                    "type": "custom",
+                    "children": [],
+                    "properties": {
+                      "class": "wave-progress-fill",
+                      "id": "wave-progress",
+                      "style": {
+                        "width": "0%"
+                      }
+                    },
+                    "dataUid": "uid-7"
+                  }
+                ],
+                "properties": {
+                  "class": "wave-progress-track"
+                },
+                "dataUid": "uid-6"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "0/3"
+                ],
+                "properties": {
+                  "class": "wave-progress-text",
+                  "id": "wave-progress-text"
+                },
+                "dataUid": "uid-8"
+              }
+            ],
+            "properties": {
+              "class": "wave-progress-container"
+            },
+            "dataUid": "uid-5"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "3/3 ALIENS"
+                ],
+                "properties": {
+                  "class": "enemy-label",
+                  "id": "robots-alive"
+                },
+                "dataUid": "uid-10"
+              }
+            ],
+            "properties": {
+              "class": "enemy-info"
+            },
+            "dataUid": "uid-9"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "container",
+                "type": "custom",
+                "children": [
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "🎯"
+                    ],
+                    "properties": {
+                      "class": "wave-stat-icon"
+                    },
+                    "dataUid": "uid-13"
+                  },
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "EASY"
+                    ],
+                    "properties": {
+                      "class": "wave-stat-value"
+                    },
+                    "dataUid": "uid-14"
+                  }
+                ],
+                "properties": {
+                  "class": "wave-stat"
+                },
+                "dataUid": "uid-12"
+              },
+              {
+                "sourceTag": "container",
+                "type": "custom",
+                "children": [
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "⚠️"
+                    ],
+                    "properties": {
+                      "class": "wave-stat-icon"
+                    },
+                    "dataUid": "uid-16"
+                  },
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "MEDIUM"
+                    ],
+                    "properties": {
+                      "class": "wave-stat-value"
+                    },
+                    "dataUid": "uid-17"
+                  }
+                ],
+                "properties": {
+                  "class": "wave-stat"
+                },
+                "dataUid": "uid-15"
+              },
+              {
+                "sourceTag": "container",
+                "type": "custom",
+                "children": [
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "👑"
+                    ],
+                    "properties": {
+                      "class": "wave-stat-icon"
+                    },
+                    "dataUid": "uid-19"
+                  },
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "BOSS"
+                    ],
+                    "properties": {
+                      "class": "wave-stat-value"
+                    },
+                    "dataUid": "uid-20"
+                  }
+                ],
+                "properties": {
+                  "class": "wave-stat"
+                },
+                "dataUid": "uid-18"
+              }
+            ],
+            "properties": {
+              "class": "wave-stats"
+            },
+            "dataUid": "uid-11"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "NEXT WAVE:"
+                ],
+                "properties": {
+                  "class": "next-wave-label"
+                },
+                "dataUid": "uid-22"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "5 ALIENS"
+                ],
+                "properties": {
+                  "class": "next-wave-value"
+                },
+                "dataUid": "uid-23"
+              }
+            ],
+            "properties": {
+              "class": "next-wave-info"
+            },
+            "dataUid": "uid-21"
+          }
+        ],
+        "properties": {
+          "class": "wave-panel"
+        },
+        "dataUid": "uid-1"
+      }
+    ],
+    "properties": {}
+  },
+  "classes": {
+    "wave-panel": {
+      "content": {
+        "width": "320px",
+        "height": "380px",
+        "background": "linear-gradient(135deg, rgba(30, 0, 50, 0.95), rgba(50, 0, 80, 0.95))",
+        "borderRadius": 20,
+        "padding": "25px",
+        "border": "2px solid #ff00ff",
+        "boxShadow": "0 0 30px rgba(255, 0, 255, 0.3)",
+        "backdropFilter": "blur(10px)",
+        "flexDirection": "column"
+      }
+    },
+    "wave-header": {
+      "content": {
+        "width": "100%",
+        "flexDirection": "row",
+        "alignItems": "center",
+        "justifyContent": "center",
+        "gap": "15px",
+        "marginBottom": "25px"
+      }
+    },
+    "wave-icon": {
+      "content": {
+        "fontSize": "36px"
+      }
+    },
+    "wave-title": {
+      "content": {
+        "fontSize": "26px",
+        "fontWeight": "bold",
+        "color": "#ffffff",
+        "textTransform": "uppercase",
+        "letterSpacing": "2px",
+        "background": "linear-gradient(90deg, #ff00ff, #00ffff)",
+        "WebkitBackgroundClip": "text",
+        "WebkitTextFillColor": "transparent"
+      }
+    },
+    "wave-progress-container": {
+      "content": {
+        "width": "100%",
+        "marginBottom": "25px"
+      }
+    },
+    "wave-progress-track": {
+      "content": {
+        "width": "100%",
+        "height": "10px",
+        "background": "rgba(255, 255, 255, 0.1)",
+        "borderRadius": 5,
+        "overflow": "hidden",
+        "marginBottom": "10px"
+      }
+    },
+    "wave-progress-fill": {
+      "content": {
+        "height": "100%",
+        "background": "linear-gradient(90deg, #ff00ff, #8800ff)",
+        "borderRadius": 5,
+        "transition": "width 0.5s ease"
+      }
+    },
+    "wave-progress-text": {
+      "content": {
+        "fontSize": "16px",
+        "color": "#ffffff",
+        "textAlign": "center",
+        "fontWeight": "bold"
+      }
+    },
+    "enemy-info": {
+      "content": {
+        "width": "100%",
+        "background": "rgba(255, 0, 255, 0.2)",
+        "borderRadius": 10,
+        "padding": "15px",
+        "marginBottom": "25px",
+        "border": "2px solid rgba(255, 0, 255, 0.4)"
+      }
+    },
+    "enemy-label": {
+      "content": {
+        "fontSize": "20px",
+        "color": "#ffffff",
+        "textAlign": "center",
+        "fontWeight": "bold",
+        "textTransform": "uppercase",
+        "letterSpacing": "1px"
+      }
+    },
+    "wave-stats": {
+      "content": {
+        "width": "100%",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginBottom": "25px"
+      }
+    },
+    "wave-stat": {
+      "content": {
+        "flexDirection": "column",
+        "alignItems": "center",
+        "gap": "8px"
+      }
+    },
+    "wave-stat-icon": {
+      "content": {
+        "fontSize": "24px"
+      }
+    },
+    "wave-stat-value": {
+      "content": {
+        "fontSize": "14px",
+        "color": "#ffffff",
+        "fontWeight": "bold"
+      }
+    },
+    "next-wave-info": {
+      "content": {
+        "width": "100%",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "padding": "15px",
+        "background": "rgba(0, 255, 255, 0.1)",
+        "borderRadius": 10,
+        "border": "1px solid rgba(0, 255, 255, 0.3)"
+      }
+    },
+    "next-wave-label": {
+      "content": {
+        "fontSize": "16px",
+        "color": "#88ffff"
+      }
+    },
+    "next-wave-value": {
+      "content": {
+        "fontSize": "18px",
+        "color": "#00ffff",
+        "fontWeight": "bold"
+      }
+    }
+  },
+  "ranges": {
+    "uid-1": {
+      "start": {
+        "line": 0,
+        "column": 0
+      },
+      "end": {
+        "line": 36,
+        "column": 8
+      }
+    },
+    "uid-2": {
+      "start": {
+        "line": 1,
+        "column": 2
+      },
+      "end": {
+        "line": 4,
+        "column": 14
+      }
+    },
+    "uid-3": {
+      "start": {
+        "line": 2,
+        "column": 4
+      },
+      "end": {
+        "line": 2,
+        "column": 37
+      }
+    },
+    "uid-4": {
+      "start": {
+        "line": 3,
+        "column": 4
+      },
+      "end": {
+        "line": 3,
+        "column": 61
+      }
+    },
+    "uid-5": {
+      "start": {
+        "line": 6,
+        "column": 2
+      },
+      "end": {
+        "line": 11,
+        "column": 14
+      }
+    },
+    "uid-6": {
+      "start": {
+        "line": 7,
+        "column": 4
+      },
+      "end": {
+        "line": 9,
+        "column": 16
+      }
+    },
+    "uid-7": {
+      "start": {
+        "line": 8,
+        "column": 6
+      },
+      "end": {
+        "line": 8,
+        "column": 93
+      }
+    },
+    "uid-8": {
+      "start": {
+        "line": 10,
+        "column": 4
+      },
+      "end": {
+        "line": 10,
+        "column": 71
+      }
+    },
+    "uid-9": {
+      "start": {
+        "line": 13,
+        "column": 2
+      },
+      "end": {
+        "line": 15,
+        "column": 14
+      }
+    },
+    "uid-10": {
+      "start": {
+        "line": 14,
+        "column": 4
+      },
+      "end": {
+        "line": 14,
+        "column": 65
+      }
+    },
+    "uid-11": {
+      "start": {
+        "line": 17,
+        "column": 2
+      },
+      "end": {
+        "line": 30,
+        "column": 14
+      }
+    },
+    "uid-12": {
+      "start": {
+        "line": 18,
+        "column": 4
+      },
+      "end": {
+        "line": 21,
+        "column": 16
+      }
+    },
+    "uid-13": {
+      "start": {
+        "line": 19,
+        "column": 6
+      },
+      "end": {
+        "line": 19,
+        "column": 44
+      }
+    },
+    "uid-14": {
+      "start": {
+        "line": 20,
+        "column": 6
+      },
+      "end": {
+        "line": 20,
+        "column": 47
+      }
+    },
+    "uid-15": {
+      "start": {
+        "line": 22,
+        "column": 4
+      },
+      "end": {
+        "line": 25,
+        "column": 16
+      }
+    },
+    "uid-16": {
+      "start": {
+        "line": 23,
+        "column": 6
+      },
+      "end": {
+        "line": 23,
+        "column": 44
+      }
+    },
+    "uid-17": {
+      "start": {
+        "line": 24,
+        "column": 6
+      },
+      "end": {
+        "line": 24,
+        "column": 49
+      }
+    },
+    "uid-18": {
+      "start": {
+        "line": 26,
+        "column": 4
+      },
+      "end": {
+        "line": 29,
+        "column": 16
+      }
+    },
+    "uid-19": {
+      "start": {
+        "line": 27,
+        "column": 6
+      },
+      "end": {
+        "line": 27,
+        "column": 44
+      }
+    },
+    "uid-20": {
+      "start": {
+        "line": 28,
+        "column": 6
+      },
+      "end": {
+        "line": 28,
+        "column": 47
+      }
+    },
+    "uid-21": {
+      "start": {
+        "line": 32,
+        "column": 2
+      },
+      "end": {
+        "line": 35,
+        "column": 14
+      }
+    },
+    "uid-22": {
+      "start": {
+        "line": 33,
+        "column": 4
+      },
+      "end": {
+        "line": 33,
+        "column": 51
+      }
+    },
+    "uid-23": {
+      "start": {
+        "line": 34,
+        "column": 4
+      },
+      "end": {
+        "line": 34,
+        "column": 49
+      }
+    },
+    "wave-panel": {
+      "start": {
+        "line": 39,
+        "column": 2
+      },
+      "end": {
+        "line": 39,
+        "column": 13
+      }
+    },
+    "wave-header": {
+      "start": {
+        "line": 51,
+        "column": 2
+      },
+      "end": {
+        "line": 51,
+        "column": 14
+      }
+    },
+    "wave-icon": {
+      "start": {
+        "line": 60,
+        "column": 2
+      },
+      "end": {
+        "line": 60,
+        "column": 12
+      }
+    },
+    "wave-title": {
+      "start": {
+        "line": 64,
+        "column": 2
+      },
+      "end": {
+        "line": 64,
+        "column": 13
+      }
+    },
+    "wave-progress-container": {
+      "start": {
+        "line": 75,
+        "column": 2
+      },
+      "end": {
+        "line": 75,
+        "column": 26
+      }
+    },
+    "wave-progress-track": {
+      "start": {
+        "line": 80,
+        "column": 2
+      },
+      "end": {
+        "line": 80,
+        "column": 22
+      }
+    },
+    "wave-progress-fill": {
+      "start": {
+        "line": 89,
+        "column": 2
+      },
+      "end": {
+        "line": 89,
+        "column": 21
+      }
+    },
+    "wave-progress-text": {
+      "start": {
+        "line": 96,
+        "column": 2
+      },
+      "end": {
+        "line": 96,
+        "column": 21
+      }
+    },
+    "enemy-info": {
+      "start": {
+        "line": 103,
+        "column": 2
+      },
+      "end": {
+        "line": 103,
+        "column": 13
+      }
+    },
+    "enemy-label": {
+      "start": {
+        "line": 112,
+        "column": 2
+      },
+      "end": {
+        "line": 112,
+        "column": 14
+      }
+    },
+    "wave-stats": {
+      "start": {
+        "line": 121,
+        "column": 2
+      },
+      "end": {
+        "line": 121,
+        "column": 13
+      }
+    },
+    "wave-stat": {
+      "start": {
+        "line": 128,
+        "column": 2
+      },
+      "end": {
+        "line": 128,
+        "column": 12
+      }
+    },
+    "wave-stat-icon": {
+      "start": {
+        "line": 134,
+        "column": 2
+      },
+      "end": {
+        "line": 134,
+        "column": 17
+      }
+    },
+    "wave-stat-value": {
+      "start": {
+        "line": 138,
+        "column": 2
+      },
+      "end": {
+        "line": 138,
+        "column": 18
+      }
+    },
+    "next-wave-info": {
+      "start": {
+        "line": 144,
+        "column": 2
+      },
+      "end": {
+        "line": 144,
+        "column": 17
+      }
+    },
+    "next-wave-label": {
+      "start": {
+        "line": 154,
+        "column": 2
+      },
+      "end": {
+        "line": 154,
+        "column": 18
+      }
+    },
+    "next-wave-value": {
+      "start": {
+        "line": 159,
+        "column": 2
+      },
+      "end": {
+        "line": 159,
+        "column": 18
+      }
+    }
+  }
+}

@@ -1,0 +1,719 @@
+{
+  "element": {
+    "type": "container",
+    "sourceTag": "div",
+    "children": [
+      {
+        "sourceTag": "panel",
+        "type": "custom",
+        "children": [
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "🚀 SPACE DEFENSE"
+                ],
+                "properties": {
+                  "class": "score-title"
+                },
+                "dataUid": "uid-3"
+              }
+            ],
+            "properties": {
+              "class": "score-header"
+            },
+            "dataUid": "uid-2"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "container",
+                "type": "custom",
+                "children": [
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "SCORE"
+                    ],
+                    "properties": {
+                      "class": "stat-label"
+                    },
+                    "dataUid": "uid-6"
+                  },
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "0"
+                    ],
+                    "properties": {
+                      "class": "stat-value",
+                      "id": "score-value"
+                    },
+                    "dataUid": "uid-7"
+                  }
+                ],
+                "properties": {
+                  "class": "stat-row"
+                },
+                "dataUid": "uid-5"
+              },
+              {
+                "sourceTag": "container",
+                "type": "custom",
+                "children": [
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "ELIMINATED"
+                    ],
+                    "properties": {
+                      "class": "stat-label"
+                    },
+                    "dataUid": "uid-9"
+                  },
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "0"
+                    ],
+                    "properties": {
+                      "class": "stat-value",
+                      "id": "kills-value"
+                    },
+                    "dataUid": "uid-10"
+                  }
+                ],
+                "properties": {
+                  "class": "stat-row"
+                },
+                "dataUid": "uid-8"
+              },
+              {
+                "sourceTag": "container",
+                "type": "custom",
+                "children": [
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "SHIELD"
+                    ],
+                    "properties": {
+                      "class": "stat-label"
+                    },
+                    "dataUid": "uid-12"
+                  },
+                  {
+                    "sourceTag": "text",
+                    "type": "custom",
+                    "children": [
+                      "100%"
+                    ],
+                    "properties": {
+                      "class": "stat-value",
+                      "id": "health-value"
+                    },
+                    "dataUid": "uid-13"
+                  }
+                ],
+                "properties": {
+                  "class": "stat-row"
+                },
+                "dataUid": "uid-11"
+              }
+            ],
+            "properties": {
+              "class": "stats-container"
+            },
+            "dataUid": "uid-4"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "SHIELD INTEGRITY"
+                ],
+                "properties": {
+                  "class": "health-label"
+                },
+                "dataUid": "uid-15"
+              },
+              {
+                "sourceTag": "container",
+                "type": "custom",
+                "children": [
+                  {
+                    "sourceTag": "container",
+                    "type": "custom",
+                    "children": [],
+                    "properties": {
+                      "class": "health-fill",
+                      "id": "health-bar",
+                      "style": {
+                        "width": "100%"
+                      }
+                    },
+                    "dataUid": "uid-17"
+                  }
+                ],
+                "properties": {
+                  "class": "health-bar"
+                },
+                "dataUid": "uid-16"
+              }
+            ],
+            "properties": {
+              "class": "health-container"
+            },
+            "dataUid": "uid-14"
+          },
+          {
+            "sourceTag": "container",
+            "type": "custom",
+            "children": [
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "LASER AMMO: 40/40"
+                ],
+                "properties": {
+                  "class": "ammo-label"
+                },
+                "dataUid": "uid-19"
+              },
+              {
+                "sourceTag": "text",
+                "type": "custom",
+                "children": [
+                  "BOMBS: 3"
+                ],
+                "properties": {
+                  "class": "bomb-label"
+                },
+                "dataUid": "uid-20"
+              }
+            ],
+            "properties": {
+              "class": "ammo-info"
+            },
+            "dataUid": "uid-18"
+          }
+        ],
+        "properties": {
+          "class": "score-panel"
+        },
+        "dataUid": "uid-1"
+      }
+    ],
+    "properties": {}
+  },
+  "classes": {
+    "score-panel": {
+      "content": {
+        "width": "320px",
+        "height": "380px",
+        "background": "linear-gradient(135deg, rgba(0, 10, 30, 0.95), rgba(0, 20, 40, 0.95))",
+        "borderRadius": 20,
+        "padding": "25px",
+        "border": "2px solid #0088ff",
+        "boxShadow": "0 0 30px rgba(0, 136, 255, 0.3)",
+        "backdropFilter": "blur(10px)",
+        "flexDirection": "column"
+      }
+    },
+    "score-header": {
+      "content": {
+        "width": "100%",
+        "borderBottom": "2px solid rgba(0, 136, 255, 0.5)",
+        "paddingBottom": "15px",
+        "marginBottom": "20px"
+      }
+    },
+    "score-title": {
+      "content": {
+        "fontSize": "22px",
+        "fontWeight": "bold",
+        "color": "#ffffff",
+        "textAlign": "center",
+        "letterSpacing": "1px",
+        "textTransform": "uppercase"
+      }
+    },
+    "stats-container": {
+      "content": {
+        "width": "100%",
+        "flexDirection": "column",
+        "gap": "15px",
+        "marginBottom": "25px"
+      }
+    },
+    "stat-row": {
+      "content": {
+        "width": "100%",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "alignItems": "center",
+        "padding": "12px 15px",
+        "background": "rgba(0, 40, 80, 0.4)",
+        "borderRadius": 10,
+        "borderLeft": "4px solid"
+      }
+    },
+    "stat-label": {
+      "content": {
+        "fontSize": "16px",
+        "color": "#88ccff",
+        "fontWeight": "bold"
+      }
+    },
+    "stat-value": {
+      "content": {
+        "fontSize": "24px",
+        "fontWeight": "bold",
+        "fontFamily": "monospace",
+        "textShadow": "0 0 10px currentColor"
+      }
+    },
+    "health-container": {
+      "content": {
+        "width": "100%",
+        "marginTop": "10px"
+      }
+    },
+    "health-label": {
+      "content": {
+        "fontSize": "14px",
+        "color": "#88ccff",
+        "marginBottom": "8px",
+        "textAlign": "center"
+      }
+    },
+    "health-bar": {
+      "content": {
+        "width": "100%",
+        "height": "12px",
+        "background": "rgba(255, 255, 255, 0.1)",
+        "borderRadius": 6,
+        "overflow": "hidden",
+        "border": "1px solid rgba(0, 136, 255, 0.3)"
+      }
+    },
+    "health-fill": {
+      "content": {
+        "height": "100%",
+        "background": "linear-gradient(90deg, #00ff00, #0088ff)",
+        "borderRadius": 6,
+        "transition": "width 0.3s ease"
+      }
+    },
+    "ammo-info": {
+      "content": {
+        "width": "100%",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginTop": "20px",
+        "paddingTop": "15px",
+        "borderTop": "1px solid rgba(255, 255, 255, 0.2)"
+      }
+    },
+    "bomb-label": {
+      "content": {
+        "fontSize": "14px",
+        "color": "#88aaff",
+        "fontWeight": "bold"
+      }
+    },
+    "__id__score-value": {
+      "content": {
+        "color": "#ff0000"
+      }
+    },
+    "__id__kills-value": {
+      "content": {
+        "color": "#00ff00"
+      }
+    },
+    "__id__health-value": {
+      "content": {
+        "color": "#0088ff"
+      }
+    }
+  },
+  "ranges": {
+    "uid-1": {
+      "start": {
+        "line": 0,
+        "column": 0
+      },
+      "end": {
+        "line": 33,
+        "column": 8
+      }
+    },
+    "uid-2": {
+      "start": {
+        "line": 1,
+        "column": 2
+      },
+      "end": {
+        "line": 3,
+        "column": 14
+      }
+    },
+    "uid-3": {
+      "start": {
+        "line": 2,
+        "column": 4
+      },
+      "end": {
+        "line": 2,
+        "column": 53
+      }
+    },
+    "uid-4": {
+      "start": {
+        "line": 5,
+        "column": 2
+      },
+      "end": {
+        "line": 20,
+        "column": 14
+      }
+    },
+    "uid-5": {
+      "start": {
+        "line": 6,
+        "column": 4
+      },
+      "end": {
+        "line": 9,
+        "column": 16
+      }
+    },
+    "uid-6": {
+      "start": {
+        "line": 7,
+        "column": 6
+      },
+      "end": {
+        "line": 7,
+        "column": 43
+      }
+    },
+    "uid-7": {
+      "start": {
+        "line": 8,
+        "column": 6
+      },
+      "end": {
+        "line": 8,
+        "column": 56
+      }
+    },
+    "uid-8": {
+      "start": {
+        "line": 11,
+        "column": 4
+      },
+      "end": {
+        "line": 14,
+        "column": 16
+      }
+    },
+    "uid-9": {
+      "start": {
+        "line": 12,
+        "column": 6
+      },
+      "end": {
+        "line": 12,
+        "column": 48
+      }
+    },
+    "uid-10": {
+      "start": {
+        "line": 13,
+        "column": 6
+      },
+      "end": {
+        "line": 13,
+        "column": 56
+      }
+    },
+    "uid-11": {
+      "start": {
+        "line": 16,
+        "column": 4
+      },
+      "end": {
+        "line": 19,
+        "column": 16
+      }
+    },
+    "uid-12": {
+      "start": {
+        "line": 17,
+        "column": 6
+      },
+      "end": {
+        "line": 17,
+        "column": 44
+      }
+    },
+    "uid-13": {
+      "start": {
+        "line": 18,
+        "column": 6
+      },
+      "end": {
+        "line": 18,
+        "column": 60
+      }
+    },
+    "uid-14": {
+      "start": {
+        "line": 22,
+        "column": 2
+      },
+      "end": {
+        "line": 27,
+        "column": 14
+      }
+    },
+    "uid-15": {
+      "start": {
+        "line": 23,
+        "column": 4
+      },
+      "end": {
+        "line": 23,
+        "column": 54
+      }
+    },
+    "uid-16": {
+      "start": {
+        "line": 24,
+        "column": 4
+      },
+      "end": {
+        "line": 26,
+        "column": 16
+      }
+    },
+    "uid-17": {
+      "start": {
+        "line": 25,
+        "column": 6
+      },
+      "end": {
+        "line": 25,
+        "column": 85
+      }
+    },
+    "uid-18": {
+      "start": {
+        "line": 29,
+        "column": 2
+      },
+      "end": {
+        "line": 32,
+        "column": 14
+      }
+    },
+    "uid-19": {
+      "start": {
+        "line": 30,
+        "column": 4
+      },
+      "end": {
+        "line": 30,
+        "column": 53
+      }
+    },
+    "uid-20": {
+      "start": {
+        "line": 31,
+        "column": 4
+      },
+      "end": {
+        "line": 31,
+        "column": 44
+      }
+    },
+    "score-panel": {
+      "start": {
+        "line": 36,
+        "column": 2
+      },
+      "end": {
+        "line": 36,
+        "column": 14
+      }
+    },
+    "score-header": {
+      "start": {
+        "line": 48,
+        "column": 2
+      },
+      "end": {
+        "line": 48,
+        "column": 15
+      }
+    },
+    "score-title": {
+      "start": {
+        "line": 55,
+        "column": 2
+      },
+      "end": {
+        "line": 55,
+        "column": 14
+      }
+    },
+    "stats-container": {
+      "start": {
+        "line": 64,
+        "column": 2
+      },
+      "end": {
+        "line": 64,
+        "column": 18
+      }
+    },
+    "stat-row": {
+      "start": {
+        "line": 71,
+        "column": 2
+      },
+      "end": {
+        "line": 71,
+        "column": 11
+      }
+    },
+    "stat-label": {
+      "start": {
+        "line": 86,
+        "column": 2
+      },
+      "end": {
+        "line": 86,
+        "column": 13
+      }
+    },
+    "stat-value": {
+      "start": {
+        "line": 92,
+        "column": 2
+      },
+      "end": {
+        "line": 92,
+        "column": 13
+      }
+    },
+    "health-container": {
+      "start": {
+        "line": 103,
+        "column": 2
+      },
+      "end": {
+        "line": 103,
+        "column": 19
+      }
+    },
+    "health-label": {
+      "start": {
+        "line": 108,
+        "column": 2
+      },
+      "end": {
+        "line": 108,
+        "column": 15
+      }
+    },
+    "health-bar": {
+      "start": {
+        "line": 115,
+        "column": 2
+      },
+      "end": {
+        "line": 115,
+        "column": 13
+      }
+    },
+    "health-fill": {
+      "start": {
+        "line": 124,
+        "column": 2
+      },
+      "end": {
+        "line": 124,
+        "column": 14
+      }
+    },
+    "ammo-info": {
+      "start": {
+        "line": 131,
+        "column": 2
+      },
+      "end": {
+        "line": 131,
+        "column": 12
+      }
+    },
+    "bomb-label": {
+      "start": {
+        "line": 140,
+        "column": 15
+      },
+      "end": {
+        "line": 140,
+        "column": 26
+      }
+    },
+    "__id__score-value": {
+      "start": {
+        "line": 99,
+        "column": 2
+      },
+      "end": {
+        "line": 99,
+        "column": 14
+      }
+    },
+    "__id__kills-value": {
+      "start": {
+        "line": 100,
+        "column": 2
+      },
+      "end": {
+        "line": 100,
+        "column": 14
+      }
+    },
+    "__id__health-value": {
+      "start": {
+        "line": 101,
+        "column": 2
+      },
+      "end": {
+        "line": 101,
+        "column": 15
+      }
+    }
+  }
+}
